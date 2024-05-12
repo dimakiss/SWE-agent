@@ -1,4 +1,3 @@
-# Prompt Templates: Control how observations of environment are shown to agent
 system_template: |-
   SETTING: You are a coding agent tasked with solving algorithmic problems directly in a Python environment.
   
@@ -78,298 +77,298 @@ demonstration_template: |
   --- END OF DEMONSTRATION ---
 
 demonstration: |
-	The example question:
-	Problem:
-	Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.
-	
-	You must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.
-	
-	Example 1:
-	
-	Input: nums = [1,2,0]
-	Output: 3
-	Explanation: The numbers in the range [1,2] are all in the array.
-	Example 2:
-	
-	Input: nums = [3,4,-1,1]
-	Output: 2
-	Explanation: 1 is in the array but 2 is missing.
-	Example 3:
-	
-	Input: nums = [7,8,9,11,12]
-	Output: 1
-	Explanation: The smallest positive integer 1 is missing.
-	
-	
-	Constraints:
-	
-	1 <= nums.length <= 10^5
-	-2^31 <= nums[i] <= 2^31 - 1
-	
-	
-	Solution:
-	
-	inital observation:We can notice that the result is somewhere between 1 and n+1. 
-	confirmation of inital observation: It cant be less than 1 since its possitive , cant be larger than n+1 since the array is of length n.
-	
-	inital naive approch: The array is given as unsorted and if it would be sorted we could go from 0 until the first possitive non zero A[k] then we comapre A[i+k]=i+1 and return the first i+1 that doesnt match
-	if you got to the end reurn the n+1 
-	
-	confirmation inital naive approch: 
-	Example 1:[1,2,0]
-	
-	Here you run python code and check yourself
-	Here is the output:
-	```
-	
-	Analysis:
-	
-	python
-	# Sort [1,2,0]
-	array = [1,2,0]
-	array.sort()
-	array
-	
-	Result:
-	[0,1,2] 
-	
-	```
-	
-	we can see after running the python code that the sorted array is [0,1,2] 
-	first positive non zero is k=1 so we compare A[i+k] to i+1
-	all of them are equal so we return n+1 witch is 2+1 = 3
-	
-	Example 2:[3,4,-1,1]
-	
-	Here you run python code and check yourself
-	Here is the output:
-	```
-	
-	Analysis:
-	
-	python
-	# Sort [3,4,-1,1]
-	array = [3,4,-1,1]
-	array.sort()
-	array
-	
-	Result:
-	[-1,1,3,4] 
-	
-	```
-	
-	we can see after running the python code that the sorted array is [-1,1,3,4]
-	first positive non zero is k=1 so we compare A[i+k] to i+1
-	we can observe that A[1+k] which is A[2]=3 not equal to i+1 which is 2 so we return 2
-	
-	improvment: we can use space to save time and insted of sorting using a new array T size n+1 to store in index T[i] the value i from A and then check in the array for missing values from 1 to n.
-	confirmation for the improvment:
-	Example 1:[1,2,0] 
-	
-	Here you run python code and check yourself
-	Here is the output:
-	```
-	
-	Analysis:
-	
-	python
-	array=[1,2,0]
-	n = len(array)
-	T = [0] * (n + 1)  # Create auxiliary array of size n+1, initialized to 0
-	
-	# Populate the auxiliary array where index matches the value in the original array
-	for num in array:
-		if 0 < num <= n:
-			T[num] = num
-	
-	# Find the smallest missing positive integer
-	for i in range(1, n + 1):
-		if T[i] == 0:
-			return i
-	
-	return n + 1  # If all numbers from 1 to n are present, the missing number is n+1
-	
-	Result:
-	3
-	
-	```
-	
-	
-	we run over the new T from 1 to n and we can see that the all values are in the new array which means the missing value is n+1 which is 3
-	
-	Example 2:[3,4,-1,1] 
-	
-	Here you run python code and check yourself
-	Here is the output:
-	```
-	
-	Analysis:
-	
-	python
-	array=[1,2,0]
-	n = len(array)
-	T = [0] * (n + 1)  # Create auxiliary array of size n+1, initialized to 0
-	
-	# Populate the auxiliary array where index matches the value in the original array
-	for num in array:
-		if 0 < num <= n:
-			T[num] = num
-	
-	# Find the smallest missing positive integer
-	for i in range(1, n + 1):
-		if T[i] == 0:
-			return i
-	
-	return n + 1  # If all numbers from 1 to n are present, the missing number is n+1
-	
-	Result:
-	2
-	
-	```
-	
-	we run over the new T from 1 and we can see that the T[2] is 0 which means that 2 is missing so we return 2.
-	
-	
-	optimization: Based on our initial observations and improvements, we iterate over the original array A from 0 to n. If the value A[i] is between 1 and n, we swap A[i] with A[A[i]-1] if A[i] is not already at its correct position. If A[i] is not between 1 and n, we leave it as is. After reordering, we scan the array from 0 to n-1 and check if A[i] is not equal to i+1. If any number is misplaced, we return i+1. If all numbers are in their correct places, the missing integer is n+1.
-	
-	Steps:
-	1. For i from 0 to n (exclusive):
-	1.1 While A[i] is between 1 and n and A[i] is not in its correct position (i.e., A[i] != A[A[i]-1]):
-		1.1.1 Swap A[i] with A[A[i]-1].
-	2. For i from 0 to n (exclusive):
-	2.1 If A[i] != i+1:
-		2.1.1 Return i+1.
-	3. If all values are correctly positioned, return n+1.
-	
-	
-	Here you run python code and check yourself
-	Here is the output:
-	```
-	Analysis:
-	
-	python
-	# Example 1: [1, 2, 0]
-	array = [1, 2, 0]
-	n = len(array)
-	
-	# First pass to place each number in its correct position
-	i = 0
-	while i < n:
-		while 1 <= array[i] <= n and array[i] != array[array[i] - 1]:
-			temp = array[i]
-			array[i] = array[temp - 1]
-			array[temp - 1] = temp
-		i += 1
-	
-	# Second pass to find the first missing positive number
-	for i in range(n):
-		if array[i] != i + 1:
-			result = i + 1
-			break
-	else:
-		result = n + 1
-	
-	result
-	
-	Result:
-	3
-	```
-	
-	
-	Here you run python code and check yourself
-	Here is the output:
-	```
-	
-	Analysis:
-	
-	python
-	# Example 2: [3, 4, -1, 1]
-	array = [3, 4, -1, 1]
-	n = len(array)
-	
-	# First pass to place each number in its correct position
-	i = 0
-	while i < n:
-		while 1 <= array[i] <= n and array[i] != array[array[i] - 1]:
-			temp = array[i]
-			array[i] = array[temp - 1]
-			array[temp - 1] = temp
-		i += 1
-	
-	# Second pass to find the first missing positive number
-	for i in range(n):
-		if array[i] != i + 1:
-			result = i + 1
-			break
-	else:
-		result = n + 1
-	
-	result
-	
-	Result:
-	2
-	```
-	
-	final code:
-	```
-	def first_missing_positive(nums):
-		n = len(nums)
-		
-		# Step 1: Place each positive number in its correct position (1 to n)
-		for i in range(n):
-			while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
-				# Swap nums[i] to its correct position
-				nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
-		
-		# Step 2: Find the first missing positive integer
-		for i in range(n):
-			if nums[i] != i + 1:
-				return i + 1
-		return n + 1
-		
-	```
-	
-	Here you run python code and check yourself
-	Here is the output:
-	```
-	python
-	class Solution:
-		def firstMissingPositive(self, nums):
-			n = len(nums)
-			
-			# Place each number in its right place, i.e., nums[i] == i+1
-			for i in range(n):
-				while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
-					# Swap elements
-					nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
-			
-			# Now, find the smallest missing positive integer
-			for i in range(n):
-				if nums[i] != i + 1:
-					return i + 1
-			
-			# If all positions are filled correctly
-			return n + 1
-	
-	# Create an instance of the solution
-	sol = Solution()
-	
-	# Test cases
-	test1 = sol.firstMissingPositive([1,2,0])  # Expected output: 3
-	test2 = sol.firstMissingPositive([3,4,-1,1])  # Expected output: 2
-	test3 = sol.firstMissingPositive([7,8,9,11,12])  # Expected output: 1
-	
-	test1, test2, test3
-	
-	Result
-	(3, 2, 1)
-	
-	```
-	The tests ran successfully with the following results:
-	
-	For the input [1,2,0], the output is 3, as expected.
-	For the input [3,4,-1,1], the output is 2, as expected.
-	For the input [7,8,9,11,12], the output is 1, as expected.
+    The example question:
+    Problem:
+    Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.
+    
+    You must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.
+    
+    Example 1:
+    
+    Input: nums = [1,2,0]
+    Output: 3
+    Explanation: The numbers in the range [1,2] are all in the array.
+    Example 2:
+    
+    Input: nums = [3,4,-1,1]
+    Output: 2
+    Explanation: 1 is in the array but 2 is missing.
+    Example 3:
+    
+    Input: nums = [7,8,9,11,12]
+    Output: 1
+    Explanation: The smallest positive integer 1 is missing.
+    
+    
+    Constraints:
+    
+    1 <= nums.length <= 10^5
+    -2^31 <= nums[i] <= 2^31 - 1
+    
+    
+    Solution:
+    
+    inital observation:We can notice that the result is somewhere between 1 and n+1. 
+    confirmation of inital observation: It cant be less than 1 since its possitive , cant be larger than n+1 since the array is of length n.
+    
+    inital naive approch: The array is given as unsorted and if it would be sorted we could go from 0 until the first possitive non zero A[k] then we comapre A[i+k]=i+1 and return the first i+1 that doesnt match
+    if you got to the end reurn the n+1 
+    
+    confirmation inital naive approch: 
+    Example 1:[1,2,0]
+    
+    Here you run python code and check yourself
+    Here is the output:
+    ```
+    
+    Analysis:
+    
+    python
+    # Sort [1,2,0]
+    array = [1,2,0]
+    array.sort()
+    array
+    
+    Result:
+    [0,1,2] 
+    
+    ```
+    
+    we can see after running the python code that the sorted array is [0,1,2] 
+    first positive non zero is k=1 so we compare A[i+k] to i+1
+    all of them are equal so we return n+1 witch is 2+1 = 3
+    
+    Example 2:[3,4,-1,1]
+    
+    Here you run python code and check yourself
+    Here is the output:
+    ```
+    
+    Analysis:
+    
+    python
+    # Sort [3,4,-1,1]
+    array = [3,4,-1,1]
+    array.sort()
+    array
+    
+    Result:
+    [-1,1,3,4] 
+    
+    ```
+    
+    we can see after running the python code that the sorted array is [-1,1,3,4]
+    first positive non zero is k=1 so we compare A[i+k] to i+1
+    we can observe that A[1+k] which is A[2]=3 not equal to i+1 which is 2 so we return 2
+    
+    improvment: we can use space to save time and insted of sorting using a new array T size n+1 to store in index T[i] the value i from A and then check in the array for missing values from 1 to n.
+    confirmation for the improvment:
+    Example 1:[1,2,0] 
+    
+    Here you run python code and check yourself
+    Here is the output:
+    ```
+    
+    Analysis:
+    
+    python
+    array=[1,2,0]
+    n = len(array)
+    T = [0] * (n + 1)  # Create auxiliary array of size n+1, initialized to 0
+    
+    # Populate the auxiliary array where index matches the value in the original array
+    for num in array:
+        if 0 < num <= n:
+            T[num] = num
+    
+    # Find the smallest missing positive integer
+    for i in range(1, n + 1):
+        if T[i] == 0:
+            return i
+    
+    return n + 1  # If all numbers from 1 to n are present, the missing number is n+1
+    
+    Result:
+    3
+    
+    ```
+    
+    
+    we run over the new T from 1 to n and we can see that the all values are in the new array which means the missing value is n+1 which is 3
+    
+    Example 2:[3,4,-1,1] 
+    
+    Here you run python code and check yourself
+    Here is the output:
+    ```
+    
+    Analysis:
+    
+    python
+    array=[1,2,0]
+    n = len(array)
+    T = [0] * (n + 1)  # Create auxiliary array of size n+1, initialized to 0
+    
+    # Populate the auxiliary array where index matches the value in the original array
+    for num in array:
+        if 0 < num <= n:
+            T[num] = num
+    
+    # Find the smallest missing positive integer
+    for i in range(1, n + 1):
+        if T[i] == 0:
+            return i
+    
+    return n + 1  # If all numbers from 1 to n are present, the missing number is n+1
+    
+    Result:
+    2
+    
+    ```
+    
+    we run over the new T from 1 and we can see that the T[2] is 0 which means that 2 is missing so we return 2.
+    
+    
+    optimization: Based on our initial observations and improvements, we iterate over the original array A from 0 to n. If the value A[i] is between 1 and n, we swap A[i] with A[A[i]-1] if A[i] is not already at its correct position. If A[i] is not between 1 and n, we leave it as is. After reordering, we scan the array from 0 to n-1 and check if A[i] is not equal to i+1. If any number is misplaced, we return i+1. If all numbers are in their correct places, the missing integer is n+1.
+    
+    Steps:
+    1. For i from 0 to n (exclusive):
+    1.1 While A[i] is between 1 and n and A[i] is not in its correct position (i.e., A[i] != A[A[i]-1]):
+        1.1.1 Swap A[i] with A[A[i]-1].
+    2. For i from 0 to n (exclusive):
+    2.1 If A[i] != i+1:
+        2.1.1 Return i+1.
+    3. If all values are correctly positioned, return n+1.
+    
+    
+    Here you run python code and check yourself
+    Here is the output:
+    ```
+    Analysis:
+    
+    python
+    # Example 1: [1, 2, 0]
+    array = [1, 2, 0]
+    n = len(array)
+    
+    # First pass to place each number in its correct position
+    i = 0
+    while i < n:
+        while 1 <= array[i] <= n and array[i] != array[array[i] - 1]:
+            temp = array[i]
+            array[i] = array[temp - 1]
+            array[temp - 1] = temp
+        i += 1
+    
+    # Second pass to find the first missing positive number
+    for i in range(n):
+        if array[i] != i + 1:
+            result = i + 1
+            break
+    else:
+        result = n + 1
+    
+    result
+    
+    Result:
+    3
+    ```
+    
+    
+    Here you run python code and check yourself
+    Here is the output:
+    ```
+    
+    Analysis:
+    
+    python
+    # Example 2: [3, 4, -1, 1]
+    array = [3, 4, -1, 1]
+    n = len(array)
+    
+    # First pass to place each number in its correct position
+    i = 0
+    while i < n:
+        while 1 <= array[i] <= n and array[i] != array[array[i] - 1]:
+            temp = array[i]
+            array[i] = array[temp - 1]
+            array[temp - 1] = temp
+        i += 1
+    
+    # Second pass to find the first missing positive number
+    for i in range(n):
+        if array[i] != i + 1:
+            result = i + 1
+            break
+    else:
+        result = n + 1
+    
+    result
+    
+    Result:
+    2
+    ```
+    
+    final code:
+    ```
+    def first_missing_positive(nums):
+        n = len(nums)
+        
+        # Step 1: Place each positive number in its correct position (1 to n)
+        for i in range(n):
+            while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
+                # Swap nums[i] to its correct position
+                nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
+        
+        # Step 2: Find the first missing positive integer
+        for i in range(n):
+            if nums[i] != i + 1:
+                return i + 1
+        return n + 1
+        
+    ```
+    
+    Here you run python code and check yourself
+    Here is the output:
+    ```
+    python
+    class Solution:
+        def firstMissingPositive(self, nums):
+            n = len(nums)
+            
+            # Place each number in its right place, i.e., nums[i] == i+1
+            for i in range(n):
+                while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
+                    # Swap elements
+                    nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
+            
+            # Now, find the smallest missing positive integer
+            for i in range(n):
+                if nums[i] != i + 1:
+                    return i + 1
+            
+            # If all positions are filled correctly
+            return n + 1
+    
+    # Create an instance of the solution
+    sol = Solution()
+    
+    # Test cases
+    test1 = sol.firstMissingPositive([1,2,0])  # Expected output: 3
+    test2 = sol.firstMissingPositive([3,4,-1,1])  # Expected output: 2
+    test3 = sol.firstMissingPositive([7,8,9,11,12])  # Expected output: 1
+    
+    test1, test2, test3
+    
+    Result
+    (3, 2, 1)
+    
+    ```
+    The tests ran successfully with the following results:
+    
+    For the input [1,2,0], the output is 3, as expected.
+    For the input [3,4,-1,1], the output is 2, as expected.
+    For the input [7,8,9,11,12], the output is 1, as expected.
   ---
 
 state_command:
