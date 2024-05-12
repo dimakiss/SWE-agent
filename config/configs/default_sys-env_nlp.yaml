@@ -1,0 +1,119 @@
+# Configuration for LeetCode Style Coding Problems in Python
+
+# Prompt Templates: Control how observations of the environment are shown to the agent
+system_template: |-
+  SETTING: You are an autonomous programming agent working in an enhanced command line environment designed for solving Python coding challenges.
+
+  This special interface allows you to write, test, and execute Python scripts directly. You have access to standard bash commands plus additional utilities to manage files and run test cases.
+
+  COMMANDS:
+  {command_docs}
+
+  RESPONSE FORMAT:
+  Your shell prompt is formatted as follows:
+  (Current problem: <problem_name>) <cwd> $
+
+  Outputs are split into discussion and command fields. You must include one command per submission and wait for a response before continuing.
+
+instance_template: |-
+  PROBLEM DESCRIPTION:
+  You are currently tasked with solving the following problem:
+  {problem_description}
+
+  INSTRUCTIONS:
+  Begin by implementing a solution in the designated Python file. You can run your solution and its accompanying test cases using the provided commands. Ensure that your code passes all the test cases before submitting the solution.
+
+  Remember, adhere to proper coding conventions and indentation as Python is strict about syntax.
+
+next_step_template: |-
+  {observation}
+  (Current problem: {problem_name})
+  (Current directory: {working_dir})
+  bash-$
+
+next_step_no_output_template: |-
+  Your command ran successfully but did not produce any output.
+  (Current problem: {problem_name})
+  (Current directory: {working_dir})
+  bash-$
+
+demonstration_template: |
+  Here is a demonstration of how to correctly solve a similar problem:
+  --- DEMONSTRATION ---
+  {demonstration}
+  --- END OF DEMONSTRATION ---
+
+# Environment States: Define features of the environment for Python coding problems
+env_variables:
+  CURRENT_PROBLEM: ''
+  PROBLEM_DESCRIPTION: 'There exists an undirected tree with n nodes numbered 0 to n - 1. You are given a 0-indexed 2D integer array edges of length n - 1, where edges[i] = [ui, vi] indicates that there is an edge between nodes ui and vi in the tree. You are also given a positive integer k, and a 0-indexed array of non-negative integers nums of length n, where nums[i] represents the value of the node numbered i.
+
+Alice wants the sum of values of tree nodes to be maximum, for which Alice can perform the following operation any number of times (including zero) on the tree:
+
+Choose any edge [u, v] connecting the nodes u and v, and update their values as follows:
+nums[u] = nums[u] XOR k
+nums[v] = nums[v] XOR k
+Return the maximum possible sum of the values Alice can achieve by performing the operation any number of times.
+
+ 
+
+Example 1:
+
+
+Input: nums = [1,2,1], k = 3, edges = [[0,1],[0,2]]
+Output: 6
+Explanation: Alice can achieve the maximum sum of 6 using a single operation:
+- Choose the edge [0,2]. nums[0] and nums[2] become: 1 XOR 3 = 2, and the array nums becomes: [1,2,1] -> [2,2,2].
+The total sum of values is 2 + 2 + 2 = 6.
+It can be shown that 6 is the maximum achievable sum of values.
+Example 2:
+
+
+Input: nums = [2,3], k = 7, edges = [[0,1]]
+Output: 9
+Explanation: Alice can achieve the maximum sum of 9 using a single operation:
+- Choose the edge [0,1]. nums[0] becomes: 2 XOR 7 = 5 and nums[1] become: 3 XOR 7 = 4, and the array nums becomes: [2,3] -> [5,4].
+The total sum of values is 5 + 4 = 9.
+It can be shown that 9 is the maximum achievable sum of values.
+Example 3:
+
+
+Input: nums = [7,7,7,7,7,7], k = 3, edges = [[0,1],[0,2],[0,3],[0,4],[0,5]]
+Output: 42
+Explanation: The maximum achievable sum is 42 which can be achieved by Alice performing no operations.
+ 
+
+Constraints:
+
+2 <= n == nums.length <= 2 * 10^4
+1 <= k <= 10^9
+0 <= nums[i] <= 10^9
+edges.length == n - 1
+edges[i].length == 2
+0 <= edges[i][0], edges[i][1] <= n - 1
+The input is generated such that edges represent a valid tree.'
+  TEST_CASES: ()
+  RUN_COMMAND: 'python {script_name}.py'  # Command to execute Python scripts
+  PROBLEM_FILES: ()
+  WINDOW: 100  # Visible lines of code at any time
+
+state_command:
+  name: state
+  code: |
+    state() {
+      local working_dir="$PWD";
+      echo '{"current_problem": "'$CURRENT_PROBLEM'", "working_dir": "'$working_dir'"}';
+    };
+
+# Action Interface: Define how an agent interacts with the Python coding environment
+command_files:
+- config/commands/run_python.sh
+- config/commands/code_edit_utils.sh
+
+parse_function: PythonCodeExecutionParser
+
+# Additional Configurations
+parse_command: DetailedCommandParser
+history_processor: EfficientHistoryTracking
+demonstrations:
+- trajectories/demonstrations/coding_challenge__leetcode_python__list_reversal__default_env__t-0.30__p-0.85__c-1.50.traj
