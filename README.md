@@ -188,6 +188,12 @@ python run.py --model_name gpt4 \
   --apply_patch_locally
 ```
 
+For NLP leetcode project:
+
+```bash
+python run.py --model_name gpt4 --data_path url --config_file config/NLP/nlp.yaml
+```
+
 > [!TIP]
 > * Run `python run.py --help` to see all available options.
 > * You can have the agent automatically open a PR if the issue has been solved by supplying the `--open_pr`
