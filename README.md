@@ -60,10 +60,11 @@ Read our paper for more details [here](https://swe-agent.com/paper.pdf).
 https://github.com/princeton-nlp/SWE-agent/assets/13602468/44d60674-59ca-4986-9b22-7052a45cbed9
 </details>
 
-1. Click [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/princeton-nlp/SWE-agent)
-2. Add your API keys to `keys.cfg` (find the file in the left sidebar and fill out the template)
-3. Make sure to wait until the `postCreateCommand` in the terminal window at the bottom is finished
-4. Enter your SWE-agent command ([see below](#-solve-real-life-github-issues-))
+1. Click this repo[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/dimakiss/SWE-agent)
+   (or the alternaive prinstone one Click [![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/princeton-nlp/SWE-agent))
+3. Add your API keys to `keys.cfg` (find the file in the left sidebar and fill out the template)
+4. Make sure to wait until the `postCreateCommand` in the terminal window at the bottom is finished
+5. Enter your SWE-agent command ([see below](#-solve-real-life-github-issues-))
 
 ### Install from source
 
