@@ -1,0 +1,31 @@
+
+diff --git a/min_cost_permutation.py b/min_cost_permutation.py
+new file mode 100644
+index 0000000..c633c10
+--- /dev/null
++++ b/min_cost_permutation.py
+@@ -0,0 +1,24 @@
++from itertools import permutations
++
++def calculate_score(perm, nums):
++    score = 0
++    n = len(perm)
++    for i in range(n):
++        score += abs(perm[i] - nums[perm[(i + 1) % n]])
++    return score
++
++class Solution:
++    def findPermutation(self, nums):
++        min_score = float('inf')
++        result_perm = None
++        for perm in permutations(range(len(nums))):
++            current_score = calculate_score(perm, nums)
++            if current_score < min_score or (current_score == min_score and (result_perm is None or perm < result_perm)):
++                min_score = current_score
++                result_perm = perm
++        return list(result_perm)
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases
++    print("Output for [1,0,2]:", sol.findPermutation([1,0,2]))  # Expected: [0,1,2]
++    print("Output for [0,2,1]:", sol.findPermutation([0,2,1]))  # Expected: [0,2,1]
