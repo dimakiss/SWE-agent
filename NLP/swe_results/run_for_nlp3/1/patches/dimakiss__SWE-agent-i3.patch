@@ -1,0 +1,46 @@
+
+diff --git a/solution.py b/solution.py
+index 6402473..f305630 100644
+--- a/solution.py
++++ b/solution.py
+@@ -2,35 +2,45 @@ from typing import List
+ 
+ class Solution:
+     def findProductsOfElements(self, queries: List[List[int]]) -> List[int]:
++        # Helper function to find the powerful array for a given x
++        def powerful_array(x):
++            result = []
++            while x > 0:
++                power = 1 << (x.bit_length() - 1)
++                result.append(power)
++                x -= power
++            return result[::-1]
++        # Calculate product of elements in big_nums from index from_idx to to_idx modulo mod
++        def product_mod(from_idx, to_idx, mod):
++            product = 1
++            current_num = 1
++            current_powerful = powerful_array(current_num)
++            index = 0
++            # Iterate until we reach the starting index
++            while index < from_idx:
++                index += len(current_powerful)
++                current_num += 1
++                current_powerful = powerful_array(current_num)
++            # Adjust index to point to the first element of the current powerful array
++            index -= len(current_powerful)
++            # Calculate the product from from_idx to to_idx
++            while index <= to_idx:
++                for num in current_powerful:
++                    if index >= from_idx:
++                        product = (product * num) % mod
++                    index += 1
++                    if index > to_idx:
++                        break
++            return product
++
++        # Process each query
++        results = []
++        for from_idx, to_idx, mod in queries:
++            result = product_mod(from_idx, to_idx, mod)
++            results.append(result)
++        return results

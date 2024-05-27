@@ -1,0 +1,34 @@
+
+diff --git a/staircase_solution.py b/staircase_solution.py
+new file mode 100644
+index 0000000..f0b4836
+--- /dev/null
++++ b/staircase_solution.py
+@@ -0,0 +1,27 @@
++class Solution:
++    def waysToReachStair(self, k: int) -> int:
++        # Memoization dictionary
++        memo = {}
++        def dfs(current, jump, last_move_was_down):
++            if current == k:
++                return 1
++            if current < 0 or current > k:
++                return 0
++            if (current, jump, last_move_was_down) in memo:
++                return memo[(current, jump, last_move_was_down)]
++            # Calculate ways using both operations
++            down = 0
++            if not last_move_was_down and current > 0:
++                down = dfs(current - 1, jump, True)
++            up = 0
++            if current + (1 << jump) <= k:
++                up = dfs(current + (1 << jump), jump + 1, False)
++            memo[(current, jump, last_move_was_down)] = down + up
++            return memo[(current, jump, last_move_was_down)]
++        # Start from stair 1 with initial jump of 0 and last move was not down
++        return dfs(1, 0, False) + (1 if k == 0 else 0)
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases
++    print("Output for k=0:", sol.waysToReachStair(0))  # Expected: 2
++    print("Output for k=1:", sol.waysToReachStair(1))  # Expected: 4
