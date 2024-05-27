@@ -1,0 +1,38 @@
+
+diff --git a/stable_binary_arrays.py b/stable_binary_arrays.py
+new file mode 100644
+index 0000000..cfb8631
+--- /dev/null
++++ b/stable_binary_arrays.py
+@@ -0,0 +1,31 @@
++class Solution:
++    def numberOfStableArrays(self, zero: int, one: int, limit: int) -> int:
++        MOD = 10**9 + 7
++        from itertools import permutations
++        from collections import Counter
++
++        # Generate all possible combinations of '0' and '1'
++        elements = '0' * zero + '1' * one
++        # Generate all possible combinations of '0' and '1' considering unique positions
++        elements = '0' * zero + '1' * one
++        all_combinations = set(''.join(p) for p in permutations(elements))
++
++        # Filter combinations to find stable arrays
++        stable_count = 0
++        for combo in all_combinations:
++            is_stable = True
++            # Check if every subarray of size > limit contains both 0 and 1
++            for i in range(len(combo) - limit):
++                subarray = combo[i:i + limit + 1]
++                if '0' not in subarray or '1' not in subarray:
++                    is_stable = False
++                    break
++            if is_stable:
++                stable_count += 1
++        return stable_count % MOD
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases
++    print("Test Case 1:", sol.numberOfStableArrays(1, 1, 2))  # Expected: 2
++    print("Test Case 2:", sol.numberOfStableArrays(1, 2, 1))  # Expected: 1
++    print("Test Case 3:", sol.numberOfStableArrays(3, 3, 2))  # Expected: 14
