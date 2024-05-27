@@ -39,6 +39,8 @@ instance_template: |-
   
   NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line! 
 
+  You can draft a solution in any format you want but make sure in the end put it in the questions format , take care of spaces .
+  
   IMPORTANT TIPS:
   1. Start by carefully reading the problem statement and understanding the requirements and constraints. 
      Identify the appropriate data structures and algorithms needed to solve the problem efficiently.
@@ -59,6 +61,9 @@ instance_template: |-
   8. When you believe your solution is correct and optimized, perform a final review of the code for any improvements or refactoring opportunities.
 
   9. After ensuring the solution is correct and efficient, submit your code for validation. If it fails on unseen test cases, analyze the failures and adjust your approach accordingly.
+
+
+  Submition: make sure you final submmition is only one file that contain the solution.
 
   (Open file: {open_file})
   (Current directory: {working_dir})
