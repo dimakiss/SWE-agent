@@ -1,0 +1,28 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..caa8748
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,21 @@
++from typing import List
++
++class Solution:
++    def numberOfSubarrays(self, nums: List[int]) -> int:
++        # Initialize the count of valid subarrays
++        count = 0
++        # Iterate through the array to find all subarrays
++        for start in range(len(nums)):
++            max_element = nums[start]
++            for end in range(start, len(nums)):
++                # Update the maximum element in the current subarray
++                max_element = max(max_element, nums[end])
++                # Check if the current subarray meets the condition
++                if nums[start] == nums[end] == max_element:
++                    count += 1
++        return count
++# Test cases
++sol = Solution()
++print("Test Case 1:", sol.numberOfSubarrays([1,4,3,3,2]))  # Expected: 6
++print("Test Case 2:", sol.numberOfSubarrays([3,3,3]))  # Expected: 6
++print("Test Case 3:", sol.numberOfSubarrays([1]))  # Expected: 1
