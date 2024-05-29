@@ -1,0 +1,35 @@
+
+diff --git a/subarray_solution.py b/subarray_solution.py
+new file mode 100644
+index 0000000..72507b2
+--- /dev/null
++++ b/subarray_solution.py
+@@ -0,0 +1,28 @@
++class Solution:
++    def numberOfSubarrays(self, nums):
++        count = 0
++        n = len(nums)
++        # Iterate over each element and consider it as the maximum if possible
++        for i in range(n):
++            max_val = nums[i]
++            # Expand to the left
++            left = i
++            while left > 0 and nums[left - 1] <= max_val:
++                if nums[left - 1] < max_val:
++                    break
++                left -= 1
++            # Expand to the right
++            right = i
++            while right < n - 1 and nums[right + 1] <= max_val:
++                if nums[right + 1] < max_val:
++                    break
++                right += 1
++            # Calculate the number of subarrays
++            if nums[left] == nums[right] == max_val:
++                count += (i - left + 1) * (right - i + 1)
++        return count
++# Test cases
++sol = Solution()
++print("Test 1:", sol.numberOfSubarrays([1,4,3,3,2]))  # Expected output: 6
++print("Test 2:", sol.numberOfSubarrays([3,3,3]))  # Expected output: 6
++print("Test 3:", sol.numberOfSubarrays([1]))  # Expected output: 1

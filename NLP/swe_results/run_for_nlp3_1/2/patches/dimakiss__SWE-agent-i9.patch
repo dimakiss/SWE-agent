@@ -1,0 +1,40 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..5d7c668
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,33 @@
++from typing import List
++
++class Solution:
++    def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
++        # Placeholder for the result
++        result = 0
++        start = 0
++        
++        # Iterate through each required AND value
++        for and_value in andValues:
++            current_and = nums[start]
++            end = start
++            
++            # Find the subarray where the AND operation results in the required value
++            while end < len(nums) and (current_and & nums[end]) >= and_value:
++                current_and &= nums[end]
++                if current_and == and_value:
++                    result += nums[end]
++                    start = end + 1
++                    break
++                end += 1
++            
++            # If no valid subarray is found, return -1
++            if current_and != and_value:
++                return -1
++        
++        return result
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases from the problem statement
++    print(sol.minimumValueSum([1,4,3,3,2], [0,3,3,2]))  # Expected output: 12
++    print(sol.minimumValueSum([2,3,5,7,7,7,5], [0,7,5]))  # Expected output: 17
++    print(sol.minimumValueSum([1,2,3,4], [2]))  # Expected output: -1

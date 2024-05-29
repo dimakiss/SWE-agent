@@ -1,0 +1,40 @@
+
+diff --git a/kth_smallest_single_denomination.py b/kth_smallest_single_denomination.py
+new file mode 100644
+index 0000000..9943a0f
+--- /dev/null
++++ b/kth_smallest_single_denomination.py
+@@ -0,0 +1,33 @@
++import heapq
++
++class Solution:
++    def findKthSmallest(self, coins, k):
++        # Create a min-heap
++        min_heap = []
++        # Add the first multiple of each coin to the heap along with the coin value
++        for coin in coins:
++            heapq.heappush(min_heap, (coin, coin))
++
++        # Extract the smallest element from the heap k times
++        current_min = 0
++        for _ in range(k):
++            current_min, coin = heapq.heappop(min_heap)
++            # Add the next multiple of the coin to the heap
++            next_multiple = current_min + coin
++            heapq.heappush(min_heap, (next_multiple, coin))
++
++        return current_min
++
++if __name__ == "__main__":
++    sol = Solution()
++    # Test case 1
++    coins1 = [3, 6, 9]
++    k1 = 3
++    print("Test 1 - Expected Output: 9")
++    print("Test 1 - Actual Output:", sol.findKthSmallest(coins1, k1))
++
++    # Test case 2
++    coins2 = [5, 2]
++    k2 = 7
++    print("Test 2 - Expected Output: 12")
++    print("Test 2 - Actual Output:", sol.findKthSmallest(coins2, k2))

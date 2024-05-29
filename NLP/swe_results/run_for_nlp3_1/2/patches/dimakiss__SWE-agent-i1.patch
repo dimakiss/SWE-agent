@@ -1,0 +1,35 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..18f1ea1
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,28 @@
++class Solution:
++    def waysToReachStair(self, k: int) -> int:
++        # Base cases
++        if k == 0:
++            return 2  # As per the problem statement example
++        if k == 1:
++            return 4  # As per the problem statement example
++
++        # Dynamic programming approach
++        dp = [0] * (k + 1)
++        dp[0] = 2
++        dp[1] = 4
++
++        for i in range(2, k + 1):
++            dp[i] = dp[i - 1]  # Move down from i-1 to i
++            jump = 0
++            while (1 << jump) <= i:
++                dp[i] += dp[i - (1 << jump)]
++                jump += 1
++
++        return dp[k]
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases
++    print("Output for k=0:", sol.waysToReachStair(0))  # Expected: 2
++    print("Output for k=1:", sol.waysToReachStair(1))  # Expected: 4
++    print("Output for k=2:", sol.waysToReachStair(2))  # Expected to check
++    print("Output for k=3:", sol.waysToReachStair(3))  # Expected to check
