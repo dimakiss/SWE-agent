@@ -45,34 +45,38 @@ instance_template: |-
 
   You can draft a solution in any format you want but make sure in the end to put it in the question's format. Take care of spaces.
   
-  ADVANCED TIPS:
-  1. **Understanding the Problem**:
+  COMMON ISSUE WITH EDIT : The existing file is in a fromat of function inside a class and usually the new edit override the function try to avoid this. as well as the original function have parameters use only them.
+
+
+  DRAFTING AND FORMATTING:
+  - You can draft a solution in any format you want but make sure in the end to put it in the question's required format. Take care of spaces and indentation.
+  - Regularly test your solution with different inputs, including edge cases and complex scenarios, to ensure robustness and correctness.
+
+  SOLVING STRATEGY:
+  Step 1. Understanding & Visualization:
      - Carefully read the problem statement and identify the key requirements and constraints.
-     - Break down the problem into smaller, manageable parts if possible.
+     - Dissect the problem and its constraints. Use examples or diagrams to visualize the problem.
 
-  2. **Choosing the Right Data Structures and Algorithms**:
-     - Identify the most suitable data structures and algorithms for solving the problem efficiently.
-     - Consider trade-offs between different approaches and choose the one that offers the best balance of performance and simplicity.
+  Step 2. Brute Force Approach:
+     - Conceptualize an intuitive, albeit possibly inefficient, solution. This will serve as our foundation to improve upon.
 
-  3. **Implementing the Solution**:
-     - Start with a basic version of the algorithm to ensure correctness.
-     - Incrementally add features and optimizations, testing at each step to ensure correctness.
-     - Write clear and concise code with appropriate comments to explain complex logic.
+  Step 3. Optimization:
+     - Having established a brute force solution, deliberate on methods to enhance its efficiency.
+     - Focus on suitable algorithms, data structures, or other computational strategies for enhancing efficiency.
 
-  4. **Testing and Debugging**:
-     - Write comprehensive test cases covering a wide range of inputs, including normal cases, edge cases, and invalid inputs.
-     - Use debugging tools and techniques to identify and fix logical errors in your code.
-     - If your initial approach doesn't work, don't hesitate to try a different algorithm or strategy.
+  Step 4. Solution Walk-through:
+     - Go step-by-step through the optimized solution using the initial example. Illustrate how the improved solution works in a practical sense.
 
-  5. **Optimizing for Performance**:
-     - Analyze the time and space complexity of your solution and identify bottlenecks.
-     - Optimize the algorithm and data structures to reduce complexity and improve performance.
-     - Consider using memoization, dynamic programming, or other advanced techniques if applicable.
+  Step 5. Implementation:
+     - Translate the optimized solution into code. Provide detailed explanations of the logic behind each line or function.
+     - Ensure your code is clean, well-documented, and adheres to best practices.
+     - Make sure your final submission is a single file containing the complete solution.
 
-  6. **Final Review and Submission**:
-     - Perform a thorough review of your code to identify any potential improvements or refactoring opportunities.
-     - Ensure that your code is clean, well-documented, and adheres to best practices.
-     - Make sure your f
+  ADVANCED TIPS:
+  1. Regularly test your solution with different inputs, including edge cases and complex scenarios, to ensure robustness and correctness.
+  2. If your initial approach doesn't work, don't hesitate to try a different algorithm or strategy.
+  3. Perform a thorough review of your code to identify any potential improvements or refactoring opportunities.
+
      
   SUBMISSION: Make sure your final submission is only one file that contains the solution.
 

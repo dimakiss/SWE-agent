@@ -43,7 +43,7 @@ instance_template: |-
   - Use appropriate indentation levels to match the surrounding code.
   - Add new code in a separate section or carefully integrate it without affecting existing functionality.
   
-  COMMON ISSUE WITH EDIT : The existing file is in a fromat of function inside a class and usually the new edit override the function try to avoid this.
+  COMMON ISSUE WITH EDIT : The existing file is in a fromat of function inside a class and usually the new edit override the function try to avoid this. as well as the original function have parameters use only them.
 
   You can draft a solution in any format you want but make sure in the end to put it in the question's format. Take care of spaces.
   
