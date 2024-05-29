@@ -1,0 +1,46 @@
+
+diff --git a/staircase_solution.py b/staircase_solution.py
+new file mode 100644
+index 0000000..f46dcef
+--- /dev/null
++++ b/staircase_solution.py
+@@ -0,0 +1,39 @@
++class Solution:
++    def waysToReachStair(self, k: int, memo=None) -> int:
++        if memo is None:
++            memo = {}
++        if k in memo:
++            return memo[k]
++
++        # Base case: if we reach stair k
++        if k == 0:
++            return 2  # There are two ways to stay on stair 0 as described in the example
++        if k < 0:
++            return 0  # No way to reach a negative stair
++
++        # Recursive case: explore both operations
++        # Operation 1: Move down to stair k-1 (if not consecutive down moves)
++        down = self.waysToReachStair(k-1, memo) if k > 0 else 0  # Ensure we do not go to negative stairs
++        # Operation 2: Move up to stair k + 2^jump (increment jump after move)
++        # Calculate the number of jumps needed to reach or exceed k from 0
++        jump = 0
++        position = 1  # Start from stair 1
++        up = 0
++        while position <= k:
++            if position == k:
++                up += self.waysToReachStair(k - 2 ** jump, memo)
++            position += 2 ** jump
++            jump += 1
++        result = down + up
++        memo[k] = result
++        return result
++
++        return result
++
++
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases
++    print("Output for k=0:", sol.waysToReachStair(0))  # Expected: 2
++    print("Output for k=1:", sol.waysToReachStair(1))  # Expected: 4
++

@@ -1,0 +1,39 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..a0584f8
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,32 @@
++class Solution:
++    def numberOfStableArrays(self, zero: int, one: int, limit: int) -> int:
++        from itertools import permutations
++        MOD = 10**9 + 7
++
++        # Generate all unique permutations of binary arrays with given counts of 0 and 1
++        elements = '0' * zero + '1' * one
++        all_permutations = set(permutations(elements))
++        stable_count = 0
++
++        # Check each permutation for stability
++        for perm in all_permutations:
++            is_stable = True
++            # Convert tuple to string
++            binary_str = ''.join(perm)
++
++            # Check for subarrays larger than limit containing both 0 and 1
++            for i in range(len(binary_str) - limit):
++                if '0' not in binary_str[i:i+limit+1] or '1' not in binary_str[i:i+limit+1]:
++                    is_stable = False
++                    break
++
++            if is_stable:
++                stable_count += 1
++
++        return stable_count % MOD
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases from the problem statement
++    print("Test Case 1:", sol.numberOfStableArrays(1, 1, 2))  # Expected: 2
++    print("Test Case 2:", sol.numberOfStableArrays(1, 2, 1))  # Expected: 1
++    print("Test Case 3:", sol.numberOfStableArrays(3, 3, 2))  # Expected: 14

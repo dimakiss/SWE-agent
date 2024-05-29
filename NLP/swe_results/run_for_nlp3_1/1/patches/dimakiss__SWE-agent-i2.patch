@@ -1,0 +1,39 @@
+
+diff --git a/find_permutation.py b/find_permutation.py
+new file mode 100644
+index 0000000..5421808
+--- /dev/null
++++ b/find_permutation.py
+@@ -0,0 +1,32 @@
++from typing import List
++
++class Solution:
++    from itertools import permutations
++
++    def calculate_score(self, perm, nums):
++        score = 0
++        n = len(perm)
++        for i in range(n):
++            score += abs(perm[i] - nums[perm[(i + 1) % n]])
++        return score
++
++    def findPermutation(self, nums: List[int]) -> List[int]:
++        n = len(nums)
++        all_perms = self.permutations(range(n))
++        min_score = float('inf')
++        min_perm = None
++        for perm in all_perms:
++            current_score = self.calculate_score(perm, nums)
++            if current_score < min_score or (current_score == min_score and perm < min_perm):
++                min_score = current_score
++                min_perm = perm
++        return list(min_perm)
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases
++    test1 = sol.findPermutation([1, 0, 2])
++    print("Test 1 (Expected Output: [0, 1, 2]):", test1)
++    test2 = sol.findPermutation([0, 2, 1])
++    print("Test 2 (Expected Output: [0, 2, 1]):", test2)
++
++

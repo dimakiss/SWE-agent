@@ -1,0 +1,29 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..94044dc
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,22 @@
++from typing import List
++import collections
++
++class Solution:
++    def medianOfUniquenessArray(self, nums: List[int]) -> int:
++        uniqueness = []
++        for i in range(len(nums)):
++            seen = set()
++            for j in range(i, len(nums)):
++                seen.add(nums[j])
++                uniqueness.append(len(seen))
++        uniqueness.sort()
++        mid = len(uniqueness) // 2
++        if len(uniqueness) % 2 == 1:
++            return uniqueness[mid]
++        else:
++            return min(uniqueness[mid - 1], uniqueness[mid])
++if __name__ == "__main__":
++    sol = Solution()
++    print("Output for [1,2,3]:", sol.medianOfUniquenessArray([1,2,3]))  # Expected: 1
++    print("Output for [3,4,3,4,5]:", sol.medianOfUniquenessArray([3,4,3,4,5]))  # Expected: 2
++    print("Output for [4,3,5,4]:", sol.medianOfUniquenessArray([4,3,5,4]))  # Expected: 2

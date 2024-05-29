@@ -1,0 +1,56 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..ff3c7cd
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,49 @@
++from typing import List
++
++class Solution:
++    def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
++        n, m = len(nums), len(andValues)
++        if m > n:
++            return -1  # More segments than numbers available
++
++        # Initialize the result variable to store the minimum sum of values
++        min_sum = float('inf')
++
++        # Dynamic programming table to store minimum sum up to each segment
++        dp = [float('inf')] * (m + 1)
++        dp[0] = 0  # Base case: no segments, no sum
++
++        # Iterate over each segment requirement in andValues
++        for i in range(m):
++            and_value = andValues[i]
++            # Try to form this segment starting from each possible index in nums
++            for start in range(n):
++                current_and = nums[start]
++                # Expand the segment until the end of nums
++                for end in range(start, n):
++                    current_and &= nums[end]
++                    # If the segment matches the required andValue
++                    if current_and == and_value:
++                        # Calculate the new possible minimum sum if this segment is used
++                        if dp[i] != float('inf'):
++                            dp[i + 1] = min(dp[i + 1], dp[i] + nums[end])
++        # The result is the minimum sum to form all segments
++        min_sum = dp[m] if dp[m] != float('inf') else -1
++        return min_sum
++# Testing the solution with provided examples
++if __name__ == "__main__":
++    sol = Solution()
++    # Example 1
++    nums1 = [1,4,3,3,2]
++    andValues1 = [0,3,3,2]
++    print("Example 1 Output:", sol.minimumValueSum(nums1, andValues1))  # Expected: 12
++
++    # Example 2
++    nums2 = [2,3,5,7,7,7,5]
++    andValues2 = [0,7,5]
++    print("Example 2 Output:", sol.minimumValueSum(nums2, andValues2))  # Expected: 17
++
++    # Example 3
++    nums3 = [1,2,3,4]
++    andValues3 = [2]
++    print("Example 3 Output:", sol.minimumValueSum(nums3, andValues3))  # Expected: -1
