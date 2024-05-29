@@ -1,0 +1,47 @@
+
+diff --git a/staircase_solution.py b/staircase_solution.py
+new file mode 100644
+index 0000000..febc95b
+--- /dev/null
++++ b/staircase_solution.py
+@@ -0,0 +1,40 @@
++class Solution:
++    def waysToReachStair(self, k: int) -> int:
++        # Memoization dictionary to store results of subproblems
++        memo = {}
++
++        def dfs(current_stair, jump, last_operation):
++            # Base case: if current stair is k
++            if current_stair == k:
++                return 1
++            # Base case: if current stair is less than 0 or too far beyond k
++            if current_stair < 0 or current_stair > k + 2**jump:
++                return 0
++            # Check memoization
++            if (current_stair, jump, last_operation) in memo:
++                return memo[(current_stair, jump, last_operation)]
++
++            # Initialize ways to reach stair k
++            ways = 0
++
++            # Operation 1: Move down to stair i-1 unless last operation was down or current stair is 0
++            if last_operation != 'down' and current_stair > 0:
++                ways += dfs(current_stair - 1, jump, 'down')
++
++            # Operation 2: Move up to stair i + 2^jump and increment jump
++            if current_stair + 2**jump <= k + 2**jump:
++                ways += dfs(current_stair + 2**jump, jump + 1, 'up')
++
++            # Store result in memoization dictionary
++            memo[(current_stair, jump, last_operation)] = ways
++            return ways
++
++        # Start DFS from stair 1, jump 0, and no last operation
++        return dfs(1, 0, None)
++        return dfs(1, 0, None)
++# Test cases
++if __name__ == "__main__":
++    sol = Solution()
++    print("Output for k=0:", sol.waysToReachStair(0))  # Expected: 2
++    print("Output for k=1:", sol.waysToReachStair(1))  # Expected: 4
++    print("Output for k=2:", sol.waysToReachStair(2))  # Expected: 6

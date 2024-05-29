@@ -1,0 +1,37 @@
+
+diff --git a/stable_binary_arrays.py b/stable_binary_arrays.py
+new file mode 100644
+index 0000000..d4466a5
+--- /dev/null
++++ b/stable_binary_arrays.py
+@@ -0,0 +1,30 @@
++class Solution:
++    def numberOfStableArrays(self, zero: int, one: int, limit: int) -> int:
++        MOD = 10**9 + 7
++        # Initialize the DP table
++        dp = [[[0 for _ in range(2)] for _ in range(one + 1)] for _ in range(zero + 1)]
++        dp[0][0][0] = 1  # Base case: one way to have an array of length 0 with 0 zeros and last element not considered
++        dp[0][0][1] = 1  # Base case: one way to have an array of length 0 with 0 ones and last element not considered
++
++        # Fill the DP table
++        for z in range(zero + 1):
++            for o in range(one + 1):
++                for last in range(2):  # last element is either 0 or 1
++                    if z > 0:
++                        dp[z][o][0] = (dp[z][o][0] + dp[z-1][o][1]) % MOD
++                    if o > 0:
++                        dp[z][o][1] = (dp[z][o][1] + dp[z][o-1][0]) % MOD
++
++        # Sum up all valid arrays that meet the limit condition
++        result = 0
++        for z in range(zero + 1):
++            for o in range(one + 1):
++                if z + o > limit and min(z, o) > 0:
++                    result = (result + dp[z][o][0] + dp[z][o][1]) % MOD
++
++        return result
++if __name__ == "__main__":
++    sol = Solution()
++    print("Test 1 (Expected Output: 2):", sol.numberOfStableArrays(1, 1, 2))
++    print("Test 2 (Expected Output: 1):", sol.numberOfStableArrays(1, 2, 1))
++    print("Test 3 (Expected Output: 14):", sol.numberOfStableArrays(3, 3, 2))

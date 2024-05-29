@@ -1,0 +1,51 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..30af99f
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,44 @@
++from typing import List
++
++class Solution:
++    def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
++        # Initialize the minimum sum as infinity to find the minimum
++        min_sum = float('inf')
++        n = len(nums)
++        m = len(andValues)
++
++        # Helper function to calculate the AND of a subarray
++        def subarray_and(start, end):
++            result = nums[start]
++            for i in range(start + 1, end + 1):
++                result &= nums[i]
++            return result
++
++        # Helper function to recursively find the minimum sum
++        def find_min_sum(index, and_index, current_sum):
++            if and_index == m:
++                if index == n:
++                    nonlocal min_sum
++                    min_sum = min(min_sum, current_sum)
++                return
++            if index >= n:
++                return
++
++            # Try to form the next subarray matching the next required AND value
++            for i in range(index, n):
++                sub_sum = subarray_and(index, i)
++                if sub_sum == andValues[and_index]:
++                    # Calculate the value of the current subarray and recurse
++                    find_min_sum(i + 1, and_index + 1, current_sum + nums[i])
++
++        # Start the recursive function from the first index and first AND value
++        find_min_sum(0, 0, 0)
++
++        # If no valid division was found, return -1
++        return min_sum if min_sum != float('inf') else -1
++if __name__ == "__main__":
++    sol = Solution()
++    # Test cases from the problem statement
++    print("Output for Test Case 1:", sol.minimumValueSum([1,4,3,3,2], [0,3,3,2]))  # Expected: 12
++    print("Output for Test Case 2:", sol.minimumValueSum([2,3,5,7,7,7,5], [0,7,5]))  # Expected: 17
++    print("Output for Test Case 3:", sol.minimumValueSum([1,2,3,4], [2]))  # Expected: -1

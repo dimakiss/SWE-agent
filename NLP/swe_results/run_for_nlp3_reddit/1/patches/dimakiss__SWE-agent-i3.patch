@@ -1,0 +1,44 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..372b25f
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,37 @@
++class Solution:
++    def powerful_array(self, x):
++        original_x = x  # Store the original value of x for debugging
++        result = []
++        power = 1
++        while x > 0:
++            if x & 1:
++                result.append(power)
++            power <<= 1
++            x >>= 1
++        print(f"Powerful array for {original_x}: {result}")  # Corrected debugging output
++        return result
++        return result
++    def findProductsOfElements(self, queries):
++        answers = []
++        for query in queries:
++            from_idx, to_idx, mod = query
++            product = 1
++            print(f"Processing query from {from_idx} to {to_idx} with mod {mod}")
++            for i in range(from_idx, to_idx + 1):
++                for num in self.powerful_array(i):
++                    product = (product * num) % mod
++                    print(f"Multiplying by {num}, interim product {product}")
++                if product == 0:
++                    print("Product zeroed out, breaking loop")
++                    break
++            answers.append(product)
++            print(f"Final product for query: {product}")
++        return answers
++def test_solution():
++    sol = Solution()
++    # Test cases from the problem statement
++    assert sol.findProductsOfElements([[1,3,7]]) == [4], "Test case 1 failed"
++    assert sol.findProductsOfElements([[2,5,3], [7,7,4]]) == [2, 2], "Test case 2 failed"
++    print("All test cases passed!")
++
++test_solution()

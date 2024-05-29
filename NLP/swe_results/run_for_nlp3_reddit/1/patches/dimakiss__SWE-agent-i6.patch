@@ -1,0 +1,32 @@
+
+diff --git a/median_uniqueness.py b/median_uniqueness.py
+new file mode 100644
+index 0000000..5a7c4b3
+--- /dev/null
++++ b/median_uniqueness.py
+@@ -0,0 +1,25 @@
++from typing import List
++
++class Solution:
++    def medianOfUniquenessArray(self, nums: List[int]) -> int:
++        # Calculate the uniqueness array
++        uniqueness = []
++        n = len(nums)
++        for i in range(n):
++            seen = set()
++            for j in range(i, n):
++                seen.add(nums[j])
++                uniqueness.append(len(seen))
++        # Sort the uniqueness array
++        uniqueness.sort()
++        # Calculate the median
++        mid = len(uniqueness) // 2
++        if len(uniqueness) % 2 == 0:
++            return min(uniqueness[mid - 1], uniqueness[mid])
++        else:
++            return uniqueness[mid]
++if __name__ == "__main__":
++    sol = Solution()
++    print("Output for [1,2,3]:", sol.medianOfUniquenessArray([1,2,3]))  # Expected: 1
++    print("Output for [3,4,3,4,5]:", sol.medianOfUniquenessArray([3,4,3,4,5]))  # Expected: 2
++    print("Output for [4,3,5,4]:", sol.medianOfUniquenessArray([4,3,5,4]))  # Expected: 2

@@ -1,0 +1,32 @@
+
+diff --git a/subarray_solution.py b/subarray_solution.py
+new file mode 100644
+index 0000000..fa85254
+--- /dev/null
++++ b/subarray_solution.py
+@@ -0,0 +1,25 @@
++from typing import List
++
++class Solution:
++    def numberOfSubarrays(self, nums: List[int]) -> int:
++        count = 0
++        n = len(nums)
++        for i in range(n):
++            max_val = nums[i]
++            # Find subarrays starting and ending with nums[i] as the maximum
++            for start in range(i, -1, -1):
++                if nums[start] > max_val:
++                    break
++                for end in range(i, n):
++                    if nums[end] > max_val:
++                        break
++                    if nums[start] == nums[end] == max_val:
++                        count += 1
++                        break  # Ensure we don't overcount by breaking after finding a valid subarray
++        return count
++        # Initial implementation
++        return 0
++
++# Test the function
++sol = Solution()
++print("Test Output:", sol.numberOfSubarrays([1,4,3,3,2]))  # Expected Output: 6

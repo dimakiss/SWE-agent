@@ -1,0 +1,56 @@
+
+diff --git a/kth_smallest_amount.py b/kth_smallest_amount.py
+new file mode 100644
+index 0000000..edacb21
+--- /dev/null
++++ b/kth_smallest_amount.py
+@@ -0,0 +1,49 @@
++from typing import List
++import heapq
++
++class Solution:
++    def findKthSmallest(self, coins: List[int], k: int) -> int:
++        # Create a min-heap to store the multiples
++        min_heap = []
++        # Add the first multiple of each coin to the heap along with the coin itself
++        # Add the first multiple of each coin to the heap along with the coin itself
++        for coin in coins:
++            heapq.heappush(min_heap, (coin, coin))
++
++        # Extract the smallest elements from the heap k times
++        seen = set((coin, coin) for coin in coins)
++        kth_smallest = 0
++        for _ in range(k):
++            kth_smallest, coin = heapq.heappop(min_heap)
++            next_multiple = kth_smallest + coin
++            if (next_multiple, coin) not in seen:
++                heapq.heappush(min_heap, (next_multiple, coin))
++                seen.add((next_multiple, coin))
++
++        return kth_smallest
++
++        return kth_smallest
++
++        return kth_smallest
++
++        return kth_smallest
++
++        return kth_smallest
++        # Create a min-heap to store the multiples
++        min_heap = []
++        # Add the first multiple of each coin to the heap
++        # Add the first multiple of each coin to the heap along with the coin itself
++        for coin in coins:
++            heapq.heappush(min_heap, (coin, coin))
++
++        # Extract the smallest elements from the heap k times
++        kth_smallest = 0
++        for _ in range(k):
++            kth_smallest, coin = heapq.heappop(min_heap)
++            # Push the next multiple of the current smallest element
++            heapq.heappush(min_heap, (kth_smallest + coin, coin))
++
++if __name__ == "__main__":
++    sol = Solution()
++    print("Output for coins = [3, 6, 9] and k = 3:", sol.findKthSmallest([3, 6, 9], 3))
++    print("Output for coins = [5, 2] and k = 7:", sol.findKthSmallest([5, 2], 7))

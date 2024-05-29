@@ -1,0 +1,63 @@
+
+diff --git a/shortest_paths.py b/shortest_paths.py
+new file mode 100644
+index 0000000..61d1867
+--- /dev/null
++++ b/shortest_paths.py
+@@ -0,0 +1,56 @@
++from typing import List
++import heapq
++
++class Solution:
++    def findAnswer(self, n: int, edges: List[List[int]]) -> List[bool]:
++        # Create a graph from the edge list
++        graph = [[] for _ in range(n)]
++        for i, (u, v, w) in enumerate(edges):
++            graph[u].append((v, w, i))
++            graph[v].append((u, w, i))
++
++        # Dijkstra's algorithm to find shortest path from node 0 to all other nodes
++        min_heap = [(0, 0)]  # (cost, node)
++        shortest_paths = [float('inf')] * n
++        shortest_paths[0] = 0
++        edge_in_path = [False] * len(edges)
++        previous_nodes = [-1] * n
++
++        while min_heap:
++            current_cost, u = heapq.heappop(min_heap)
++            if current_cost > shortest_paths[u]:
++                continue
++            for v, weight, idx in graph[u]:
++                if current_cost + weight < shortest_paths[v]:
++                    shortest_paths[v] = current_cost + weight
++                    heapq.heappush(min_heap, (shortest_paths[v], v))
++                    previous_nodes[v] = (u, idx)  # Store the previous node and edge index
++                    # Ensure only the edges leading to the shortest path updates are marked
++                    for edge in graph[v]:
++                        edge_in_path[edge[2]] = False
++                    edge_in_path[idx] = True
++
++        # Finalize the edges that are part of the shortest path from node 0 to node n-1
++        current_node = n - 1
++        final_edges = [False] * len(edges)
++        while current_node != 0:
++            if previous_nodes[current_node] == -1:
++                break  # No path to node 0
++            prev_node, edge_idx = previous_nodes[current_node]
++            final_edges[edge_idx] = True
++            current_node = prev_node
++
++        return final_edges
++
++        return edge_in_path
++
++if __name__ == "__main__":
++    sol = Solution()
++    # Example 1
++    n1 = 6
++    edges1 = [[0,1,4],[0,2,1],[1,3,2],[1,4,3],[1,5,1],[2,3,1],[3,5,3],[4,5,2]]
++    print("Example 1 Output:", sol.findAnswer(n1, edges1))
++    # Example 2
++    n2 = 4
++    edges2 = [[2,0,1],[0,1,1],[0,3,4],[3,2,2]]
++    print("Example 2 Output:", sol.findAnswer(n2, edges2))
