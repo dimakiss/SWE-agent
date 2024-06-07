@@ -81,7 +81,10 @@ instance_template: |-
   3. Perform a thorough review of your code to identify any potential improvements or refactoring opportunities.
 
      
-  SUBMISSION: Make sure your final submission is only one file that contains the solution.
+  SUBMISSION: Ensure your final submission is a single file containing the complete solution.
+             If the code works on the original test cases, add a variety of test cases, including edge cases, similar examples to the original test cases, and some variations. This should be comprehensive.
+             If everything works correctly, then and only then, submit your solution.
+
 
   (Open file: {open_file})
   (Current directory: {working_dir})

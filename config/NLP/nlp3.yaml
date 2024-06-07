@@ -63,8 +63,15 @@ instance_template: |-
   9. After ensuring the solution is correct and efficient, submit your code for validation. If it fails on unseen test cases, analyze the failures and adjust your approach accordingly.
 
 
-  Submition: make sure you final submmition is only one file that contain the solution.
+  ADVANCED TIPS:
+  1. Regularly test your solution with different inputs, including edge cases and complex scenarios, to ensure robustness and correctness.
+  2. If your initial approach doesn't work, don't hesitate to try a different algorithm or strategy.
+  3. Perform a thorough review of your code to identify any potential improvements or refactoring opportunities.
 
+     
+  SUBMISSION: Ensure your final submission is a single file containing the complete solution.
+             If the code works on the original test cases, add a variety of test cases, including edge cases, similar examples to the original test cases, and some variations. This should be comprehensive.
+             If everything works correctly, then and only then, submit your solution.
   (Open file: {open_file})
   (Current directory: {working_dir})
   bash-$
