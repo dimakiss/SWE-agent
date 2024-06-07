@@ -132,4 +132,4 @@ command_files:
 parse_command: ParseCommandDetailed
 history_processor: Last5Observations
 demonstrations:
-- trajectories/demonstrations/NLP-swe-agent__default__t-0.00__p-0.95__c-3.00__install-1/NLP3_complex_edmo_nlp.traj
+- trajectories/demonstrations/NLP-swe-agent__default__t-0.00__p-0.95__c-3.00__install-1/NLP3_demo_nlp_human_thought_nlp3.traj
