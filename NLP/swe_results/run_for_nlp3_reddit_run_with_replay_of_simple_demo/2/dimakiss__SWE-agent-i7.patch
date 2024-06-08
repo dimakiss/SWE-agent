@@ -1,0 +1,52 @@
+
+diff --git a/stable_arrays.py b/stable_arrays.py
+new file mode 100644
+index 0000000..1227046
+--- /dev/null
++++ b/stable_arrays.py
+@@ -0,0 +1,45 @@
++def numberOfStableArrays(zero, one, limit):
++    MOD = 10**9 + 7
++
++    # Base case: if limit is greater than or equal to the sum of zeros and ones, all permutations are valid
++    if limit >= zero + one:
++        return factorial(zero + one) // (factorial(zero) * factorial(one)) % MOD
++
++    # Dynamic programming approach to count valid arrays
++    # dp[i][j] represents the number of stable arrays with i zeros and j ones
++    dp = [[0] * (one + 1) for _ in range(zero + 1)]
++    dp[0][0] = 1  # Base case: one way to have an array with 0 zeros and 0 ones
++
++    # Populate the dp table considering valid transitions
++    for z in range(zero + 1):
++        for o in range(one + 1):
++            if z > 0:
++                dp[z][o] = (dp[z][o] + dp[z - 1][o]) % MOD  # Add a zero
++            if o > 0:
++                dp[z][o] = (dp[z][o] + dp[z][o - 1]) % MOD  # Add a one
++
++    # Ensure every subarray of size > limit contains both 0 and 1
++    # We need to use a sliding window approach to validate subarrays
++    valid = dp[zero][one]
++    for length in range(2, limit + 1):
++        for z in range(max(0, length - one), min(zero, length) + 1):
++            o = length - z
++            if o <= one and o >= 0:
++                if z == 0 or o == 0:
++                    valid = (valid - dp[z][o] + MOD) % MOD
++
++    return valid
++
++# Helper function to calculate factorial
++def factorial(n):
++    if n == 0:
++        return 1
++    result = 1
++    for i in range(2, n + 1):
++        result *= i
++    return result
++
++# Test cases
++print("Example 1:", numberOfStableArrays(1, 1, 2))  # Expected: 2
++print("Example 2:", numberOfStableArrays(1, 2, 1))  # Expected: 1
++print("Example 3:", numberOfStableArrays(3, 3, 2))  # Expected: 14

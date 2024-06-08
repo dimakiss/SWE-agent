@@ -1,0 +1,41 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..e3a1b41
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,34 @@
++def minimumValueSum(nums, andValues):
++    n = len(nums)
++    m = len(andValues)
++    import sys
++    from functools import lru_cache
++
++    # Memoization to store minimum sum of values for subarrays
++    @lru_cache(None)
++    def dp(index, k):
++        if k == 0 and index == n:
++            return 0
++        if k == 0 or index == n:
++            return sys.maxsize
++        min_value = sys.maxsize
++        for start in range(index, n):
++            current_and = nums[start]
++            for j in range(start, n):
++                current_and &= nums[j]
++                if current_and == andValues[m - k]:
++                    # Calculate the sum recursively
++                    result = dp(j + 1, k - 1)
++                    if result != sys.maxsize:
++                        min_value = min(min_value, nums[j] + result)
++                    break  # Stop further AND operations once a match is found
++        return min_value
++
++    # Calculate the minimum sum of values
++    result = dp(0, m)
++    return result if result != sys.maxsize else -1
++
++# Test cases
++print("Test 1:", minimumValueSum([1, 4, 3, 3, 2], [0, 3, 3, 2]))  # Expected: 12
++print("Test 2:", minimumValueSum([2, 3, 5, 7, 7, 7, 5], [0, 7, 5]))  # Expected: 17
++print("Test 3:", minimumValueSum([1, 2, 3, 4], [2]))  # Expected: -1

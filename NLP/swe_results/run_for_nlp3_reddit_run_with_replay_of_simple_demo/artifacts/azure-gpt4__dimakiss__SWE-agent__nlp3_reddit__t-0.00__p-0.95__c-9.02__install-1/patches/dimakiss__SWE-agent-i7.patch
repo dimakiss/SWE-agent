@@ -1,0 +1,44 @@
+
+diff --git a/stable_arrays.py b/stable_arrays.py
+new file mode 100644
+index 0000000..549f60f
+--- /dev/null
++++ b/stable_arrays.py
+@@ -0,0 +1,37 @@
++from math import factorial
++
++def numberOfStableArrays(zero, one, limit):
++    MOD = 10**9 + 7
++
++    # Base case: if limit is greater than or equal to the sum of zero and one, all permutations are valid
++    if limit >= zero + one:
++        return factorial(zero + one) // (factorial(zero) * factorial(one)) % MOD
++
++    # Dynamic programming approach to count valid arrays
++    # dp[i][j] represents the number of valid arrays with i zeros and j ones
++    dp = [[0] * (one + 1) for _ in range(zero + 1)]
++    dp[0][0] = 1  # Base case: one way to have an array with 0 zeros and 0 ones
++
++    for z in range(zero + 1):
++        for o in range(one + 1):
++            if z > 0:
++                dp[z][o] += dp[z - 1][o]
++            if o > 0:
++                dp[z][o] += dp[z][o - 1]
++            dp[z][o] %= MOD
++
++    # Subtract invalid arrays that violate the limit condition
++    # We need to ensure that every subarray of size > limit contains both 0 and 1
++    for length in range(2, limit + 1):
++        for z in range(max(0, length - one), min(zero, length) + 1):
++            o = length - z
++            if o <= one and (z == length or o == length):
++                dp[zero][one] -= dp[z][o]
++                dp[zero][one] %= MOD
++
++    return dp[zero][one]
++
++# Test cases
++print("Test 1:", numberOfStableArrays(1, 1, 2))  # Expected: 2
++print("Test 2:", numberOfStableArrays(1, 2, 1))  # Expected: 1
++print("Test 3:", numberOfStableArrays(3, 3, 2))  # Expected: 14

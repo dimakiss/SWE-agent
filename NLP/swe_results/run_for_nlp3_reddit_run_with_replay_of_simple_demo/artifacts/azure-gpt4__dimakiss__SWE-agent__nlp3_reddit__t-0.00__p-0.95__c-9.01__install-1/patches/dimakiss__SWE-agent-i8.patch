@@ -1,0 +1,62 @@
+
+diff --git a/find_edges.py b/find_edges.py
+new file mode 100644
+index 0000000..f7eab2c
+--- /dev/null
++++ b/find_edges.py
+@@ -0,0 +1,55 @@
++def findAnswer(n, edges):
++    from heapq import heappop, heappush
++    from collections import defaultdict, deque
++
++    # Create graph
++    graph = defaultdict(list)
++    for i, (u, v, w) in enumerate(edges):
++        graph[u].append((v, w, i))
++        graph[v].append((u, w, i))
++
++    # Dijkstra's algorithm to find shortest path from node 0 to node n-1
++    def dijkstra(source, target):
++        min_heap = [(0, source, -1)]  # (cost, node, edge_index)
++        dist = {i: float('inf') for i in range(n)}
++        dist[source] = 0
++        path_edges = defaultdict(list)
++
++        while min_heap:
++            cost, node, edge_idx = heappop(min_heap)
++            if cost > dist[node]:
++                continue
++            for neighbor, weight, idx in graph[node]:
++                new_cost = cost + weight
++                if new_cost < dist[neighbor]:
++                    dist[neighbor] = new_cost
++                    heappush(min_heap, (new_cost, neighbor, idx))
++                    path_edges[neighbor] = [idx]  # Track edges leading to this node
++                elif new_cost == dist[neighbor]:
++                    path_edges[neighbor].append(idx)  # Multiple shortest paths
++
++        # Collect all edges from shortest paths
++        all_used_edges = set()
++        queue = deque([target])
++        while queue:
++            node = queue.popleft()
++            for edge_idx in path_edges[node]:
++                if edge_idx not in all_used_edges:
++                    all_used_edges.add(edge_idx)
++                    next_node = edges[edge_idx][0] if edges[edge_idx][1] == node else edges[edge_idx][1]
++                    queue.append(next_node)
++
++        return dist[target], all_used_edges
++
++    shortest_distance, used_edges = dijkstra(0, n-1)
++
++    # Determine which edges are used in any shortest path
++    answer = [False] * len(edges)
++    for edge in used_edges:
++        answer[edge] = True
++
++    return answer
++
++# Test cases
++print("Test 1:", findAnswer(6, [[0,1,4],[0,2,1],[1,3,2],[1,4,3],[1,5,1],[2,3,1],[3,5,3],[4,5,2]]))  # Expected: [True,True,True,False,True,True,True,False]
++print("Test 2:", findAnswer(4, [[2,0,1],[0,1,1],[0,3,4],[3,2,2]]))  # Expected: [True,False,False,True]

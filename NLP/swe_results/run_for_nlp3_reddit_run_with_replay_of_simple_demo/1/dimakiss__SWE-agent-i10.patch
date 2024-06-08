@@ -1,0 +1,32 @@
+
+diff --git a/kth_smallest.py b/kth_smallest.py
+new file mode 100644
+index 0000000..9f1d79f
+--- /dev/null
++++ b/kth_smallest.py
+@@ -0,0 +1,25 @@
++def findKthSmallest(coins, k):
++    import heapq
++
++    # Create a min-heap to store the first multiple of each coin
++    min_heap = []
++    seen = set()
++    for coin in coins:
++        heapq.heappush(min_heap, coin)  # Push the first multiple of each coin
++        seen.add(coin)
++
++    # Extract the kth smallest element from the heap
++    current_value = 0
++    for _ in range(k):
++        current_value = heapq.heappop(min_heap)
++        for coin in coins:
++            next_value = current_value + coin
++            if next_value not in seen:
++                seen.add(next_value)
++                heapq.heappush(min_heap, next_value)
++
++    return current_value
++
++# Test cases
++print("Test 1:", findKthSmallest([3, 6, 9], 3))  # Expected: 9
++print("Test 2:", findKthSmallest([5, 2], 7))    # Expected: 12

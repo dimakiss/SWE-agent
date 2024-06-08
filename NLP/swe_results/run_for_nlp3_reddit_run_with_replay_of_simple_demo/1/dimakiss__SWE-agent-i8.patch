@@ -1,0 +1,68 @@
+
+diff --git a/find_edges.py b/find_edges.py
+new file mode 100644
+index 0000000..2e294df
+--- /dev/null
++++ b/find_edges.py
+@@ -0,0 +1,61 @@
++from typing import List
++
++class Solution:
++    def findAnswer(self, n: int, edges: List[List[int]]) -> List[bool]:
++        from heapq import heappop, heappush
++        from collections import defaultdict, deque
++
++        # Create graph
++        graph = defaultdict(list)
++        for i, (u, v, w) in enumerate(edges):
++            graph[u].append((v, w, i))
++            graph[v].append((u, w, i))
++
++        # Dijkstra's algorithm to find shortest paths from node 0
++        def dijkstra(source, n):
++            dist = [float('inf')] * n
++            dist[source] = 0
++            min_heap = [(0, source)]  # (cost, node)
++            path_edges = defaultdict(list)
++
++            while min_heap:
++                d, node = heappop(min_heap)
++                if d > dist[node]:
++                    continue
++                for neighbor, weight, edge_idx in graph[node]:
++                    new_dist = d + weight
++                    if new_dist < dist[neighbor]:
++                        dist[neighbor] = new_dist
++                        heappush(min_heap, (new_dist, neighbor))
++                        path_edges[neighbor] = [edge_idx]
++                    elif new_dist == dist[neighbor]:
++                        path_edges[neighbor].append(edge_idx)
++            return dist, path_edges
++
++        dist, path_edges = dijkstra(0, n)
++        shortest_path_edges = set()
++        # BFS to find all edges in all shortest paths from node 0 to n-1
++        queue = deque([n-1])
++        visited = set()
++        while queue:
++            node = queue.popleft()
++            if node in visited:
++                continue
++            visited.add(node)
++            for edge_idx in path_edges[node]:
++                shortest_path_edges.add(edge_idx)
++                next_node = edges[edge_idx][0] if edges[edge_idx][1] == node else edges[edge_idx][1]
++                if next_node not in visited:
++                    queue.append(next_node)
++
++        # Prepare the answer array
++        answer = [False] * len(edges)
++        for edge_idx in shortest_path_edges:
++            answer[edge_idx] = True
++
++        return answer
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.findAnswer(6, [[0,1,4],[0,2,1],[1,3,2],[1,4,3],[1,5,1],[2,3,1],[3,5,3],[4,5,2]]))  # Expected: [True, True, True, False, True, True, True, False]

@@ -1,0 +1,39 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..d9536a2
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,32 @@
++class Solution:
++    def minimumValueSum(self, nums, andValues):
++        n = len(nums)
++        m = len(andValues)
++
++        # Helper function to calculate bitwise AND of a subarray
++        def bitwise_and_subarray(start, end):
++            result = nums[start]
++            for i in range(start + 1, end + 1):
++                result &= nums[i]
++            return result
++
++        # Attempt to divide the array into m subarrays with the specified AND values
++        def can_divide(start, index):
++            if index == m:
++                return [] if start == n else None
++            for end in range(start, n):
++                if bitwise_and_subarray(start, end) == andValues[index]:
++                    next_result = can_divide(end + 1, index + 1)
++                    if next_result is not None:
++                        return [nums[end]] + next_result
++            return None
++
++        result = can_divide(0, 0)
++        return sum(result) if result else -1
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.minimumValueSum([1, 4, 3, 3, 2], [0, 3, 3, 2]))  # Expected: 12
++print("Test 2:", sol.minimumValueSum([2, 3, 5, 7, 7, 7, 5], [0, 7, 5]))  # Expected: 17
++print("Test 3:", sol.minimumValueSum([1, 2, 3, 4], [2]))  # Expected: -1
