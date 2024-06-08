@@ -37,18 +37,25 @@ instance_template: |-
   When you're satisfied with all the changes you've made, you can submit your solution by simply running the submit command.
   Note, however, that you cannot use any interactive session commands (e.g., python, vim) in this environment, but you can write scripts and run them. E.g., you can write a python script and then run it with `python <script_name>.py`.
   
+  If the subbmition format is :Here is how the code submission format should be:
+  ```
+  class Solution:
+    def firstMissingPositive(self, nums):
+  ```
+
+  first solve by creating a fully functional 'def firstMissingPositive( nums):' and then before submittion adjust to the format needed
+
+  
+
   NOTE ABOUT THE EDIT COMMAND: Indentation really matters! When editing a file, make sure to insert appropriate indentation before each line!
   - Always read the existing code and understand its structure before making any changes.
   - Avoid overwriting existing code blocks unless necessary.
   - Use appropriate indentation levels to match the surrounding code.
   - Add new code in a separate section or carefully integrate it without affecting existing functionality.
-
+  - if you are trying to edit and you get an error try to first understand why this error eaccured
   You can draft a solution in any format you want but make sure in the end to put it in the question's format. Take care of spaces.
   
-  COMMON ISSUE WITH EDIT : The existing file is in a fromat of function inside a class and usually the new edit override the function try to avoid this. as well as the original function have parameters use only them.
-  for example :
-  class Solution:                                                                                                                                                                                                                                                                                            
-      def waysToReachStair(self, k: int) -> int:   
+  COMMON ISSUE WITH EDIT : if you are trying to edit and you get an error try to first understand why this error eaccured
 
 
   DRAFTING AND FORMATTING:
@@ -135,4 +142,5 @@ command_files:
 parse_command: ParseCommandDetailed
 history_processor: Last5Observations
 demonstrations:
-- trajectories/demonstrations/NLP-swe-agent__default__t-0.00__p-0.95__c-3.00__install-1/NLP3_demo_nlp_human_thought_nlp3.traj
+- trajectories/demonstrations/NLP-swe-agent__default__t-0.00__p-0.95__c-3.00__install-1/run_with_replay_of_simple_demo.traj
+
