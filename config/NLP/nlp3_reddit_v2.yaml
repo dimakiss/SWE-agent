@@ -46,8 +46,8 @@ instance_template: |-
   first solve by creating a fully functional 'def firstMissingPositive( nums):' and then before submittion adjust to the format needed
 
   IF STUCK:
-  - If you find yourself unable to come up with a satisfactory solution after a significant amount of time or if you notice repeated similar code, prompts, or answers, submit the best solution you have developed so far in the code submission format from the question.
-  - Before submission, ensure that your draft is as optimized and correct as possible given the time constraints.
+  - If you find yourself unable to come up with a satisfactory solution after a significant amount of time or if you notice repeated similar code, prompts, or answers, first rewrite the code to the code submission format from the question and then and only then,submit the best solution you have developed so far.
+  - Before submission, ensure that your draft is as optimized and correct as possible given the time constraints and that the submission in the code submission format from the question .
   - Recognize repetition by identifying patterns such as:
     - Using similar logic or structure in multiple attempts without significant improvement.
     - Receiving similar feedback or errors for different attempts.
@@ -89,16 +89,16 @@ instance_template: |-
      - Make sure your final submission is a single file containing the complete solution.
   
   ADVANCED TIPS:
-  1. Regularly test your solution with different inputs, including edge cases and complex scenarios, to ensure robustness and correctness.
+  1. Regularly test your solution with different inputs, including edge cases and complex scenarios, to ensure robustness and correctness you can add more test cases.
   2. If your initial approach doesn't work, don't hesitate to try a different algorithm or strategy.
   3. Perform a thorough review of your code to identify any potential improvements or refactoring opportunities.
   
   SUBMISSION: Ensure your final submission is a single file containing the complete solution.
              If the code works on the original test cases, add a variety of test cases, including edge cases, similar examples to the original test cases, and some variations. This should be comprehensive.
              If everything works correctly, then and only then, submit your solution in the correct code submission format from the question.
+             make sure the code is in the code submission format from the question (if not rewrite it) and then and only then submit.
 
-
-  NOTE: make sure to subbmit in the correct code submission format from the question!
+  NOTE: make sure the code is in the code submission format from the question (if not rewrite it) and then and only then submit!!
 
   (Open file: {open_file})
   (Current directory: {working_dir})
