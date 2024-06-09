@@ -16,7 +16,7 @@ do
     for ISSUE in {1..11}
     do
         # Run the Python script with dynamic issue number and cost limit
-        python run.py --model_name $MODEL_NAME --data_path "$BASE_URL/$ISSUE" --config_file $CONFIG_FILE --per_instance_cost_limit $COST_LIMIT
+        python run.py --model_name $MODEL_NAME --data_path "$BASE_URL/$ISSUE" --config_file $CONFIG_FILE --per_instance_cost_limit $COST_LIMIT --temperature 0.0
     done
 done
 
