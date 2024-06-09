@@ -1,0 +1,36 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..7ade532
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,29 @@
++def minimumValueSum(nums, andValues):
++    n = len(nums)
++    m = len(andValues)
++    # This will store the minimum sum of the last elements of the subarrays
++    dp = [[float('inf')] * (n + 1) for _ in range(m + 1)]
++    dp[0][0] = 0  # Base case: no subarrays, no cost
++
++    # Fill dp table
++    for i in range(1, m + 1):
++        for j in range(n):
++            current_and = nums[j]
++            for k in range(j, -1, -1):
++                current_and &= nums[k]
++                if current_and == andValues[i - 1]:
++                    if k > 0:
++                        dp[i][j] = min(dp[i][j], dp[i - 1][k - 1] + nums[j])
++                    else:
++                        dp[i][j] = min(dp[i][j], nums[j])
++                    # Break if a valid subarray is found to start a new subarray from next index
++                    break
++
++    # The answer is the minimum value in the last row of dp table that is not infinity
++    result = min(dp[m][j] for j in range(n))
++    return -1 if result == float('inf') else result
++
++# Example calls
++print(minimumValueSum([1,4,3,3,2], [0,3,3,2]))  # Expected: 12
++print(minimumValueSum([2,3,5,7,7,7,5], [0,7,5]))  # Expected: 17
++print(minimumValueSum([1,2,3,4], [2]))  # Expected: -1

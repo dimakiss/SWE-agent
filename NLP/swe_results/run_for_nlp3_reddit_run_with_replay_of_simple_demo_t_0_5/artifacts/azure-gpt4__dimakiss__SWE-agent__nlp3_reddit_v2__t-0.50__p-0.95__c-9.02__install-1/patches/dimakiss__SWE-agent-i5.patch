@@ -1,0 +1,34 @@
+
+diff --git a/min_cost_equalize.py b/min_cost_equalize.py
+new file mode 100644
+index 0000000..80d0db9
+--- /dev/null
++++ b/min_cost_equalize.py
+@@ -0,0 +1,27 @@
++def minCostToEqualizeArray(nums, cost1, cost2):
++    # Calculate the maximum value in the array to determine the target
++    max_val = max(nums)
++    min_cost = float('inf')
++
++    # Consider each possible target from the minimum to the maximum value
++    for target in range(min(nums), max_val + 1):
++        current_cost = 0
++
++        # Calculate the cost to make all elements equal to the current target
++        for num in nums:
++            diff = target - num
++            if diff > 0:
++                # Calculate the optimal cost to increase num to target
++                pair_increments = diff // 2
++                remainder = diff % 2
++                current_cost += pair_increments * cost2 + remainder * cost1
++
++        # Update the minimum cost found so far
++        min_cost = min(min_cost, current_cost)
++
++    return min_cost % (10**9 + 7)
++
++# Test cases
++print("Example 1:", minCostToEqualizeArray([4,1], 5, 2))  # Expected: 15
++print("Example 2:", minCostToEqualizeArray([2,3,3,3,5], 2, 1))  # Expected: 6
++print("Example 3:", minCostToEqualizeArray([3,5,3], 1, 3))  # Expected: 4

@@ -1,0 +1,43 @@
+
+diff --git a/uniqueness_median.py b/uniqueness_median.py
+new file mode 100644
+index 0000000..02c8ef5
+--- /dev/null
++++ b/uniqueness_median.py
+@@ -0,0 +1,36 @@
++class Solution:
++    def medianOfUniquenessArray(self, nums):
++        from collections import defaultdict
++        import bisect
++
++        def count_distinct_subarrays(start, end):
++            seen = set()
++            count = 0
++            for i in range(start, end + 1):
++                if nums[i] not in seen:
++                    seen.add(nums[i])
++                    count += 1
++            return count
++
++        uniqueness = []
++        n = len(nums)
++        for i in range(n):
++            for j in range(i, n):
++                count = count_distinct_subarrays(i, j)
++                bisect.insort(uniqueness, count)
++
++        # Calculate the median
++        mid = len(uniqueness) // 2
++        if len(uniqueness) % 2 == 0:
++            return (uniqueness[mid - 1] + uniqueness[mid]) // 2
++        else:
++            return uniqueness[mid]
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.medianOfUniquenessArray([1, 2, 3]))  # Expected: 1
++print("Test 2:", sol.medianOfUniquenessArray([3, 4, 3, 4, 5]))  # Expected: 2
++print("Test 3:", sol.medianOfUniquenessArray([4, 3, 5, 4]))  # Expected: 2
++print("Test 4:", sol.medianOfUniquenessArray([1]))  # Expected: 1
++print("Test 5:", sol.medianOfUniquenessArray([2, 2, 2]))  # Expected: 1

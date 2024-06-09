@@ -1,0 +1,38 @@
+
+diff --git a/staircase_ways.py b/staircase_ways.py
+new file mode 100644
+index 0000000..29dcfcb
+--- /dev/null
++++ b/staircase_ways.py
+@@ -0,0 +1,31 @@
++def waysToReachStair(k):
++    from functools import lru_cache
++
++    @lru_cache(None)
++    def dfs(stair, jump, last_move_was_down):
++        if stair == k:
++            return 1
++        if stair < 0 or stair > k:  # Prevent recursive calls beyond the target
++            return 0
++
++        total_ways = 0
++
++        # Move up
++        next_stair = stair + 2 ** jump
++        if next_stair <= k:
++            total_ways += dfs(next_stair, jump + 1, False)
++
++        # Move down, ensuring it wasn't the last move and not moving down from stair 0
++        if not last_move_was_down and stair > 0:
++            total_ways += dfs(stair - 1, jump, True)
++
++        return total_ways
++
++    # Start from stair 1, jump is initially 0, and last move was not down
++    return dfs(1, 0, False) + (dfs(0, 0, False) if k == 0 else 0)  # Include starting from stair 0 if k is 0
++
++# Test cases
++print("Test k=0:", waysToReachStair(0))  # Expected: 2
++print("Test k=1:", waysToReachStair(1))  # Expected: 4
++print("Test k=2:", waysToReachStair(2))  # Expected: 2
++print("Test k=3:", waysToReachStair(3))  # Expected: 3
