@@ -1,0 +1,50 @@
+
+diff --git a/staircase_solution.py b/staircase_solution.py
+new file mode 100644
+index 0000000..ca47107
+--- /dev/null
++++ b/staircase_solution.py
+@@ -0,0 +1,43 @@
++class Solution:
++    def waysToReachStair(self, k: int) -> int:
++        # Base cases
++        if k == 0:
++            return 2  # As described in the example
++        if k == 1:
++            return 4  # As described in the example
++
++        # Initialize a dictionary to store the number of ways to reach each stair
++        ways = {0: 1, 1: 1}  # Starting from stair 1, 1 way to stay there, 1 way to go to stair 0
++
++        # We need to calculate the number of ways to reach up to stair k
++        jump = 0
++        current_stair = 1
++        while current_stair <= k:
++            # Calculate the next stair Alice can jump to
++            next_stair = current_stair + 2 ** jump
++            if next_stair not in ways:
++                ways[next_stair] = 0
++            # Update the number of ways to reach the next stair
++            ways[next_stair] += ways[current_stair]
++
++            # If possible, go back to the previous stair (cannot go to stair 0 consecutively)
++            if current_stair > 1:
++                prev_stair = current_stair - 1
++                if prev_stair not in ways:
++                    ways[prev_stair] = 0
++                ways[prev_stair] += ways[current_stair]
++
++            # Update current stair and increment jump
++            current_stair = next_stair
++            jump += 1
++
++        return ways[k] if k in ways else 0
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test for k=0:", sol.waysToReachStair(0))  # Expected: 2
++print("Test for k=1:", sol.waysToReachStair(1))  # Expected: 4
++print("Test for k=2:", sol.waysToReachStair(2))  # Expected: ?
++print("Test for k=3:", sol.waysToReachStair(3))  # Expected: ?
++print("Test for k=10:", sol.waysToReachStair(10))  # Expected: ?

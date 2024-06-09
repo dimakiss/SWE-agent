@@ -1,0 +1,27 @@
+
+diff --git a/subarray_solution.py b/subarray_solution.py
+new file mode 100644
+index 0000000..ab7615e
+--- /dev/null
++++ b/subarray_solution.py
+@@ -0,0 +1,20 @@
++class Solution:
++    def numberOfSubarrays(self, nums):
++        count = 0
++        n = len(nums)
++        for i in range(n):
++            max_element = nums[i]
++            for j in range(i, n):
++                max_element = max(max_element, nums[j])
++                if nums[i] == nums[j] == max_element:
++                    count += 1
++        return count
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.numberOfSubarrays([1, 4, 3, 3, 2]))  # Expected: 6
++print("Test 2:", sol.numberOfSubarrays([3, 3, 3]))  # Expected: 6
++print("Test 3:", sol.numberOfSubarrays([1]))  # Expected: 1
++print("Test 4:", sol.numberOfSubarrays([2, 2, 2, 2]))  # Expected: 10
++print("Test 5:", sol.numberOfSubarrays([5, 1, 5]))  # Expected: 3

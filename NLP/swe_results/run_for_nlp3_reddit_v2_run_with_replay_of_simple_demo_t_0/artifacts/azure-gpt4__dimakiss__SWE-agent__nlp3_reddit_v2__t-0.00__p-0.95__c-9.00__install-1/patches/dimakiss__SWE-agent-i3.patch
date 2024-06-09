@@ -1,0 +1,44 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..93d7ba4
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,37 @@
++class Solution:
++    def findProductsOfElements(self, queries):
++        # Function to generate the powerful array for a given integer x
++        def powerful_array(x):
++            result = []
++            power = 1
++            while x > 0:
++                if x % 2 == 1:
++                    result.append(power)
++                x //= 2
++                power *= 2
++            return result
++
++        # Generate the big_nums array by concatenating powerful arrays
++        big_nums = []
++        i = 1
++        # We will generate more than needed and slice later for simplicity
++        while len(big_nums) < 100000:  # Arbitrary large number for demonstration
++            big_nums.extend(powerful_array(i))
++            i += 1
++
++        # Process each query
++        results = []
++        for from_idx, to_idx, mod in queries:
++            product = 1
++            for num in big_nums[from_idx:to_idx + 1]:
++                product = (product * num) % mod
++            results.append(product)
++
++        return results
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.findProductsOfElements([[1,3,7]]))  # Expected: [4]
++print("Test 2:", sol.findProductsOfElements([[2,5,3]]))  # Expected: [2]
++print("Test 3:", sol.findProductsOfElements([[7,7,4]]))  # Expected: [2]

@@ -1,0 +1,41 @@
+
+diff --git a/stable_arrays.py b/stable_arrays.py
+new file mode 100644
+index 0000000..ca15139
+--- /dev/null
++++ b/stable_arrays.py
+@@ -0,0 +1,34 @@
++def numberOfStableArrays(zero, one, limit):
++    MOD = 10**9 + 7
++
++    # Base case: if limit is greater than or equal to the sum of zeros and ones, all permutations are valid
++    if limit >= zero + one:
++        from math import factorial
++        # Calculate number of permutations of zeros and ones
++        return factorial(zero + one) // (factorial(zero) * factorial(one)) % MOD
++
++    # Dynamic programming approach to count valid arrays
++    # dp[i][j] represents the number of stable arrays with i zeros and j ones
++    dp = [[0] * (one + 1) for _ in range(zero + 1)]
++    dp[0][0] = 1  # 1 way to have an array with 0 zeros and 0 ones
++
++    # Populate the dp table considering valid subarrays
++    for z in range(zero + 1):
++        for o in range(one + 1):
++            if z > 0:
++                dp[z][o] = (dp[z][o] + dp[z - 1][o]) % MOD
++            if o > 0:
++                dp[z][o] = (dp[z][o] + dp[z][o - 1]) % MOD
++
++            # Ensure no invalid subarrays of size > limit with only zeros or only ones
++            if z > limit:
++                dp[z][o] = (dp[z][o] - dp[z - limit - 1][o] + MOD) % MOD
++            if o > limit:
++                dp[z][o] = (dp[z][o] - dp[z][o - limit - 1] + MOD) % MOD
++
++    return dp[zero][one]
++
++# Test cases
++print("Example 1:", numberOfStableArrays(1, 1, 2))  # Expected: 2
++print("Example 2:", numberOfStableArrays(1, 2, 1))  # Expected: 1
++print("Example 3:", numberOfStableArrays(3, 3, 2))  # Expected: 14

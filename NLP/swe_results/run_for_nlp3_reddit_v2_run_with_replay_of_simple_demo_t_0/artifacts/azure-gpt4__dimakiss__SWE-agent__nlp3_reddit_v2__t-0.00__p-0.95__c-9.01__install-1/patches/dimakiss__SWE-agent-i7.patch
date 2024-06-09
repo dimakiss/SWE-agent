@@ -1,0 +1,36 @@
+
+diff --git a/stable_arrays.py b/stable_arrays.py
+new file mode 100644
+index 0000000..3c2408a
+--- /dev/null
++++ b/stable_arrays.py
+@@ -0,0 +1,29 @@
++class Solution:
++    def numberOfStableArrays(self, zero: int, one: int, limit: int) -> int:
++        MOD = 10**9 + 7
++
++        # Dynamic programming approach to count valid arrays
++        dp = [[0] * (one + 1) for _ in range(zero + 1)]
++        dp[0][0] = 1  # 1 way to have an array with 0 zeros and 0 ones
++
++        for z in range(zero + 1):
++            for o in range(one + 1):
++                if z > 0:
++                    dp[z][o] += dp[z - 1][o]
++                if o > 0:
++                    dp[z][o] += dp[z][o - 1]
++                # Ensure no subarrays of size > limit are without both 0 and 1
++                if z > limit:
++                    dp[z][o] -= dp[z - limit - 1][o]
++                if o > limit:
++                    dp[z][o] -= dp[z][o - limit - 1]
++                dp[z][o] %= MOD
++
++        return dp[zero][one]
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.numberOfStableArrays(1, 1, 2))  # Expected: 2
++print("Test 2:", sol.numberOfStableArrays(1, 2, 1))  # Expected: 1
++print("Test 3:", sol.numberOfStableArrays(3, 3, 2))  # Expected: 14

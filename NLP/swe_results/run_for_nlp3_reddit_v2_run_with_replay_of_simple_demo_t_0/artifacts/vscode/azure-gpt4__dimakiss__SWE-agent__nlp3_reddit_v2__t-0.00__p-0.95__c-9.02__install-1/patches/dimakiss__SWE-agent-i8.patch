@@ -1,0 +1,64 @@
+
+diff --git a/find_edges.py b/find_edges.py
+new file mode 100644
+index 0000000..85e2b98
+--- /dev/null
++++ b/find_edges.py
+@@ -0,0 +1,57 @@
++from typing import List
++
++class Solution:
++    def findAnswer(self, n: int, edges: List[List[int]]) -> List[bool]:
++        from heapq import heappop, heappush
++        from collections import defaultdict, deque
++
++        # Create graph
++        graph = defaultdict(list)
++        for i, (u, v, w) in enumerate(edges):
++            graph[u].append((v, w, i))
++            graph[v].append((u, w, i))
++
++        # Dijkstra's algorithm to find shortest paths from node 0
++        def dijkstra(source):
++            min_heap = [(0, source)]  # (cost, node)
++            dist = {i: float('inf') for i in range(n)}
++            dist[source] = 0
++            path_edges = defaultdict(list)
++
++            while min_heap:
++                d, node = heappop(min_heap)
++                if d > dist[node]:
++                    continue
++
++                for neighbor, weight, edge_idx in graph[node]:
++                    new_dist = d + weight
++                    if new_dist < dist[neighbor]:
++                        dist[neighbor] = new_dist
++                        heappush(min_heap, (new_dist, neighbor))
++                        path_edges[neighbor] = [edge_idx]
++                    elif new_dist == dist[neighbor]:
++                        if edge_idx not in path_edges[neighbor]:
++                            path_edges[neighbor].append(edge_idx)
++
++            return dist, path_edges
++
++        dist, path_edges = dijkstra(0)
++        target = n - 1
++        shortest_path_edges = set()
++        if target in path_edges:
++            queue = deque([target])
++            while queue:
++                node = queue.popleft()
++                for edge in path_edges[node]:
++                    if edge not in shortest_path_edges:
++                        shortest_path_edges.add(edge)
++                        next_node = edges[edge][0] if edges[edge][1] == node else edges[edge][1]
++                        if next_node != 0:
++                            queue.append(next_node)
++
++        # Result array
++        result = [False] * len(edges)
++        for edge in shortest_path_edges:
++            result[edge] = True
++
++        return result

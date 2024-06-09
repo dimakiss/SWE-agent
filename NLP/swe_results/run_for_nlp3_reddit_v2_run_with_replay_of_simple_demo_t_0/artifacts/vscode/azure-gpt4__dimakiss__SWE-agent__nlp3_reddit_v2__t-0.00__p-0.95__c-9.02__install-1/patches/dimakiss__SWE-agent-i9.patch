@@ -1,0 +1,49 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..c26251f
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,42 @@
++from typing import List
++
++class Solution:
++    def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
++        n = len(nums)
++        m = len(andValues)
++        if m > n:
++            return -1  # More subarrays required than available elements
++
++        # Helper function to calculate bitwise AND of a subarray
++        def bitwise_and(subarray):
++            result = subarray[0]
++            for num in subarray[1:]:
++                result &= num
++            return result
++
++        # Dynamic programming table
++        # dp[i][j] will hold the minimum sum of values for the first i elements with j partitions
++        dp = [[float('inf')] * (m + 1) for _ in range(n + 1)]
++        dp[0][0] = 0  # Base case: 0 elements with 0 partitions
++
++        # Fill the dp table
++        for i in range(1, n + 1):
++            for j in range(1, min(i, m) + 1):
++                for k in range(i):
++                    subarray = nums[k:i]
++                    if bitwise_and(subarray) == andValues[j - 1]:
++                        dp[i][j] = min(dp[i][j], dp[k][j - 1] + subarray[-1])
++
++        # Check if a valid partitioning is possible
++        if dp[n][m] == float('inf'):
++            return -1
++        else:
++            return dp[n][m]
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.minimumValueSum([1,4,3,3,2], [0,3,3,2]))  # Expected: 12
++print("Test 2:", sol.minimumValueSum([2,3,5,7,7,7,5], [0,7,5]))  # Expected: 17
++print("Test 3:", sol.minimumValueSum([1,2,3,4], [2]))  # Expected: -1
++print("Test 4:", sol.minimumValueSum([1, 2, 3, 4, 5], [1, 2, 3]))  # Additional test case

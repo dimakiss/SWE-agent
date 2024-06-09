@@ -1,0 +1,39 @@
+
+diff --git a/min_cost_equalize.py b/min_cost_equalize.py
+new file mode 100644
+index 0000000..1dc5561
+--- /dev/null
++++ b/min_cost_equalize.py
+@@ -0,0 +1,32 @@
++def minCostToEqualizeArray(nums, cost1, cost2):
++    max_val = max(nums)
++    min_cost = float('inf')
++    MOD = 10**9 + 7
++
++    # Try to make all elements equal to each possible value from min(nums) to max(nums)
++    for target in range(min(nums), max_val + 1):
++        cost = 0
++        single_increments = 0
++        for num in nums:
++            if num < target:
++                # Calculate how many single increments are needed
++                single_increments += target - num
++
++        # Calculate the cost if using only single increments
++        cost_single = single_increments * cost1
++
++        # Calculate the cost if using double increments as much as possible
++        double_increments = single_increments // 2
++        remaining_single = single_increments % 2
++        cost_double = double_increments * cost2 + remaining_single * cost1
++
++        # Take the minimum cost of using single or double increments
++        total_cost = min(cost_single, cost_double)
++        min_cost = min(min_cost, total_cost)
++
++    return min_cost % MOD
++
++# Test cases
++print("Test 1:", minCostToEqualizeArray([4,1], 5, 2))  # Expected: 15
++print("Test 2:", minCostToEqualizeArray([2,3,3,3,5], 2, 1))  # Expected: 6
++print("Test 3:", minCostToEqualizeArray([3,5,3], 1, 3))  # Expected: 4
