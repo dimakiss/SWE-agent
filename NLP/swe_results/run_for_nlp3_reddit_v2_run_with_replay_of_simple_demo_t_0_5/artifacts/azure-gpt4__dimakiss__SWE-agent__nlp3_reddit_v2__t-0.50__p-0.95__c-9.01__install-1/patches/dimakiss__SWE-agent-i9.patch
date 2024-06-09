@@ -1,0 +1,47 @@
+
+diff --git a/minimum_value_sum.py b/minimum_value_sum.py
+new file mode 100644
+index 0000000..7245f8f
+--- /dev/null
++++ b/minimum_value_sum.py
+@@ -0,0 +1,40 @@
++from typing import List
++
++class Solution:
++    def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
++        from functools import lru_cache
++
++        n = len(nums)
++        m = len(andValues)
++
++        # Memoization for subproblems
++        @lru_cache(None)
++        def dfs(index, segment):
++            if segment == m:
++                return 0 if index == n else float('inf')
++
++            if index >= n:
++                return float('inf')
++
++            min_value = float('inf')
++            current_and = nums[index]
++
++            # Try every possible subarray ending position
++            for i in range(index, n):
++                current_and &= nums[i]
++                if current_and == andValues[segment]:
++                    # Compute the value of this segment and recurse for the next
++                    result = nums[i] + dfs(i + 1, segment + 1)
++                    min_value = min(min_value, result)
++
++            return min_value
++
++        result = dfs(0, 0)
++        return result if result != float('inf') else -1
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.minimumValueSum([1, 4, 3, 3, 2], [0, 3, 3, 2]))  # Expected: 12
++print("Test 2:", sol.minimumValueSum([2, 3, 5, 7, 7, 7, 5], [0, 7, 5]))  # Expected: 17
++print("Test 3:", sol.minimumValueSum([1, 2, 3, 4], [2]))  # Expected: -1

@@ -1,0 +1,40 @@
+
+diff --git a/staircase_solution.py b/staircase_solution.py
+new file mode 100644
+index 0000000..52646a9
+--- /dev/null
++++ b/staircase_solution.py
+@@ -0,0 +1,33 @@
++class Solution:
++    def waysToReachStair(self, k: int) -> int:
++        # Base cases
++        if k == 0:
++            return 2  # From the problem's example for k=0
++        if k == 1:
++            return 4  # From the problem's example for k=1
++
++        # Dynamic programming table to store the number of ways to reach each stair
++        dp = [0] * (k + 1)
++        dp[0] = 2  # Initialize base case
++        dp[1] = 4  # Initialize base case
++
++        # Fill the dp array
++        for i in range(2, k + 1):
++            # Calculate ways to reach the current stair
++            jump = 0
++            while (1 << jump) <= i:
++                dp[i] += dp[i - (1 << jump)]
++                jump += 1
++            if i > 1:
++                dp[i] += dp[i - 1]  # Include the way of stepping down from i-1
++
++        return dp[k]
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 0:", sol.waysToReachStair(0))  # Expected: 2
++print("Test 1:", sol.waysToReachStair(1))  # Expected: 4
++print("Test 2:", sol.waysToReachStair(2))  # Expected: 10
++print("Test 3:", sol.waysToReachStair(3))  # Additional test case
++print("Test 4:", sol.waysToReachStair(4))  # Additional test case

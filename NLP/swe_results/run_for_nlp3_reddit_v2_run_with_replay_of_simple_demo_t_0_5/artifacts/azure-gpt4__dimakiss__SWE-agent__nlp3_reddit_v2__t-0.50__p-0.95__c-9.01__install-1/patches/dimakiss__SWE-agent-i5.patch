@@ -1,0 +1,36 @@
+
+diff --git a/equalize_array.py b/equalize_array.py
+new file mode 100644
+index 0000000..9f76f5b
+--- /dev/null
++++ b/equalize_array.py
+@@ -0,0 +1,29 @@
++def minCostToEqualizeArray(nums, cost1, cost2):
++    max_num = max(nums)
++    min_cost = float('inf')
++
++    # Calculate the cost to make all elements equal to each possible target number
++    for target in range(min(nums), max_num + 1):
++        total_cost = 0
++        print(f"Calculating for target: {target}")
++        for num in nums:
++            if num < target:
++                increment = target - num
++                cost_using_singles = increment * cost1
++                cost_using_doubles = (increment // 2) * cost2 + (increment % 2) * cost1
++                cost = min(cost_using_singles, cost_using_doubles)
++                total_cost += cost
++                print(f"num: {num}, increment: {increment}, cost_using_singles: {cost_using_singles}, cost_using_doubles: {cost_using_doubles}, chosen_cost: {cost}")
++
++        print(f"Total cost for target {target}: {total_cost}")
++        if total_cost < min_cost:
++            min_cost = total_cost
++            print(f"New min_cost: {min_cost}")
++
++    return min_cost % (10**9 + 7)
++
++# Test cases
++print("Example 1:", minCostToEqualizeArray([4,1], 5, 2))  # Expected: 15
++print("Example 2:", minCostToEqualizeArray([2,3,3,3,5], 2, 1))  # Expected: 6
++print("Example 3:", minCostToEqualizeArray([3,5,3], 1, 3))  # Expected: 4
++print("Example 3:", minCostToEqualizeArray([3,5,3], 1, 3))  # Expected: 4

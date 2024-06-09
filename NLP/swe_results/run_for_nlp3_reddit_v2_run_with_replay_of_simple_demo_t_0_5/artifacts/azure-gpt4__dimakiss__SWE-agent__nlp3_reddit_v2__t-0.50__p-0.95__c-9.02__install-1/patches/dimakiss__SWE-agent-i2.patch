@@ -1,0 +1,33 @@
+
+diff --git a/find_permutation.py b/find_permutation.py
+new file mode 100644
+index 0000000..3127dae
+--- /dev/null
++++ b/find_permutation.py
+@@ -0,0 +1,26 @@
++class Solution:
++    def findPermutation(self, nums):
++        from itertools import permutations
++        n = len(nums)
++        min_score = float('inf')
++        best_perm = None
++
++        # Generate all permutations of nums
++        for perm in permutations(range(n)):
++            # Calculate the score for this permutation
++            score = sum(abs(perm[i] - nums[perm[(i + 1) % n]]) for i in range(n))
++            
++            # Update the minimum score and best permutation if this one is better
++            if score < min_score or (score == min_score and perm < best_perm):
++                min_score = score
++                best_perm = perm
++
++        return list(best_perm)
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.findPermutation([1, 0, 2]))  # Expected: [0, 1, 2]
++print("Test 2:", sol.findPermutation([0, 2, 1]))  # Expected: [0, 2, 1]
++print("Test 3:", sol.findPermutation([2, 1, 0]))  # Expected: [0, 1, 2]
++print("Test 4:", sol.findPermutation([3, 2, 1, 0]))  # Expected: [0, 1, 2, 3]
