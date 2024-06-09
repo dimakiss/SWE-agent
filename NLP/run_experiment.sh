@@ -7,7 +7,7 @@ MODEL_NAME="azure:gpt4"
 BASE_URL="https://github.com/dimakiss/SWE-agent/issues"
 
 # Define the configuration file
-CONFIG_FILE="config/NLP/nlp3_reddit.yaml"
+CONFIG_FILE="config/NLP/nlp3_reddit_v2.yaml"
 
 # Loop through the cost limits
 for COST_LIMIT in 9.00 9.01 9.02
