@@ -559,7 +559,7 @@ agent:
 environment:
   base_commit: null
   container_name: null
-  data_path: https://github.com/dimakiss/SWE-agent/issues/3
+  data_path: https://github.com/dimakiss/SWE-agent/issues/5
   environment_setup: null
   image_name: sweagent/swe-agent:latest
   install_environment: true
