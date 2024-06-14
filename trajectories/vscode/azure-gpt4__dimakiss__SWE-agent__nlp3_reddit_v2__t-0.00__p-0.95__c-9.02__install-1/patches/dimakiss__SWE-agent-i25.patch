@@ -1,0 +1,32 @@
+
+diff --git a/minimum_time.py b/minimum_time.py
+new file mode 100644
+index 0000000..05d72b3
+--- /dev/null
++++ b/minimum_time.py
+@@ -0,0 +1,25 @@
++def minimumTimeToInitialState(word, k):
++    # Initial state of the word
++    initial = word
++    current = word
++    count = 0
++    n = len(word)
++
++    # Simulate the process until the word returns to its initial state or a cycle is detected
++    seen = {word: 0}
++    while True:
++        count += 1
++        # Perform the rotation
++        current = current[-k:] + current[:-k]
++        if current == initial:
++            return count
++        if current in seen:
++            break  # Cycle detected without returning to initial state
++        seen[current] = count
++
++    return -1  # If no configuration matches the initial state within the cycle
++
++# Test cases
++print("Test 1:", minimumTimeToInitialState("abacaba", 3))  # Expected: 2
++print("Test 2:", minimumTimeToInitialState("abacaba", 4))  # Expected: 1
++print("Test 3:", minimumTimeToInitialState("abcbabcd", 2))  # Expected: 4
