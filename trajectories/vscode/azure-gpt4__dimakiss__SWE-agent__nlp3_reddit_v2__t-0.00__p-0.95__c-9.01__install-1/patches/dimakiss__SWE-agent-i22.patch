@@ -1,0 +1,29 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..1df754a
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,22 @@
++from typing import List
++
++class Solution:
++    def countPrefixSuffixPairs(self, words: List[str]) -> int:
++        def isPrefixAndSuffix(str1, str2):
++            return str1 == str2[:len(str1)] and str1 == str2[-len(str1):]
++
++        count = 0
++        for i in range(len(words)):
++            for j in range(i + 1, len(words)):
++                if isPrefixAndSuffix(words[i], words[j]):
++                    count += 1
++        return count
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.countPrefixSuffixPairs(["a","aba","ababa","aa"]))  # Expected: 4
++print("Test 2:", sol.countPrefixSuffixPairs(["pa","papa","ma","mama"]))  # Expected: 2
++print("Test 3:", sol.countPrefixSuffixPairs(["abab","ab"]))  # Expected: 0
++print("Test 4:", sol.countPrefixSuffixPairs(["x","xx","xxx"]))  # Expected: 3
++print("Test 5:", sol.countPrefixSuffixPairs(["abc","abcd","abcde"]))  # Expected: 0
