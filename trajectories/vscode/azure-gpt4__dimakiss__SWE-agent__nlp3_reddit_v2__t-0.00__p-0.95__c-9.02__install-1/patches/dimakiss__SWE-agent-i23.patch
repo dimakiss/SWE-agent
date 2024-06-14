@@ -1,0 +1,42 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..88c28a2
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,35 @@
++def maxSelectedElements(nums):
++    # Sort the array first to handle increments more effectively
++    nums.sort()
++    
++    # Create a dictionary to count occurrences of each number
++    num_count = {}
++    for num in nums:
++        if num in num_count:
++            num_count[num] += 1
++        else:
++            num_count[num] = 1
++    
++    # We can increment each element by at most 1 if it helps in forming consecutive numbers
++    for num in list(num_count):
++        if num + 1 not in num_count:
++            num_count[num + 1] = 1
++    
++    # Now find the longest sequence of consecutive numbers
++    max_consecutive = 0
++    current_consecutive = 0
++    last_num = float('-inf')
++    
++    for num in sorted(num_count):
++        if num == last_num + 1:
++            current_consecutive += 1
++        else:
++            current_consecutive = 1
++        last_num = num
++        max_consecutive = max(max_consecutive, current_consecutive)
++    
++    return max_consecutive
++
++# Test cases
++print("Test 1:", maxSelectedElements([2, 1, 5, 1, 1]))  # Expected: 3
++print("Test 2:", maxSelectedElements([1, 4, 7, 10]))  # Expected: 1
