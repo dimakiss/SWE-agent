@@ -1,0 +1,38 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..1a7ed3c
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,31 @@
++def minimumTimeToInitialState(word, k):
++    # Initialize a dictionary to keep track of states and their first occurrence time
++    seen = {}
++    current = word
++    time = 0
++
++    while True:
++        # Increment time
++        time += 1
++        # Remove the first k characters and add them to the end
++        current = current[k:] + current[:k]
++        # Check if we have seen this state before
++        if current == word:
++            return time
++        if current in seen:
++            # If we see a state we've seen before, it means we are in a loop
++            # Calculate the loop length
++            loop_length = time - seen[current]
++            # Calculate the remaining steps to reach the initial state
++            remaining_steps = (time - seen[current]) % loop_length
++            if remaining_steps == 0:
++                return time
++            else:
++                return time + (loop_length - remaining_steps)
++        # Mark this state with the current time
++        seen[current] = time
++
++# Test cases
++print("Test 1:", minimumTimeToInitialState("abacaba", 3))  # Expected: 2
++print("Test 2:", minimumTimeToInitialState("abacaba", 4))  # Expected: 1
++print("Test 3:", minimumTimeToInitialState("abcbabcd", 2))  # Expected: 4
