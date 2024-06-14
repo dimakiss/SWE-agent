@@ -1,0 +1,43 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..2939572
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,36 @@
++from typing import List
++
++class Solution:
++    def numberOfPairs(self, points: List[List[int]]) -> int:
++        count = 0
++        points_set = set(tuple(point) for point in points)
++        
++        for i in range(len(points)):
++            for j in range(i + 1, len(points)):
++                x1, y1 = points[i]
++                x2, y2 = points[j]
++                
++                # Ensure Alice is at the upper left and Bob at the lower right
++                if x1 <= x2 and y1 >= y2:
++                    # Check if any point is inside or on the boundary of the rectangle
++                    sad = False
++                    for x, y in points_set:
++                        if x1 <= x <= x2 and y2 <= y <= y1:
++                            if (x, y) not in [(x1, y1), (x2, y2)]:
++                                sad = True
++                                break
++                    if not sad:
++                        count += 1
++                # Check the opposite placement of Alice and Bob
++                elif x2 <= x1 and y2 >= y1:
++                    # Check if any point is inside or on the boundary of the rectangle
++                    sad = False
++                    for x, y in points_set:
++                        if x2 <= x <= x1 and y1 <= y <= y2:
++                            if (x, y) not in [(x1, y1), (x2, y2)]:
++                                sad = True
++                                break
++                    if not sad:
++                        count += 1
++
++        return count
