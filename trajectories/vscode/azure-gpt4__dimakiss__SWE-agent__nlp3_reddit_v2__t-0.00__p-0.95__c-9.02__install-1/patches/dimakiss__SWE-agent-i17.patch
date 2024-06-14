@@ -1,0 +1,31 @@
+
+diff --git a/sum_of_power.py b/sum_of_power.py
+new file mode 100644
+index 0000000..dc955c2
+--- /dev/null
++++ b/sum_of_power.py
+@@ -0,0 +1,24 @@
++def sumOfPower(nums, k):
++    MOD = 10**9 + 7
++    memo = {}
++
++    def count_subsequences(i, current_sum):
++        if current_sum == k:
++            return 1
++        if i >= len(nums) or current_sum > k:
++            return 0
++        if (i, current_sum) in memo:
++            return memo[(i, current_sum)]
++
++        # Include nums[i] in the subsequence or not
++        include = count_subsequences(i + 1, current_sum + nums[i])
++        exclude = count_subsequences(i + 1, current_sum)
++        memo[(i, current_sum)] = (include + exclude) % MOD
++        return memo[(i, current_sum)]
++
++    return count_subsequences(0, 0)
++
++# Test cases
++print("Test 1:", sumOfPower([1, 2, 3], 3))  # Expected: 6
++print("Test 2:", sumOfPower([2, 3, 3], 5))  # Expected: 4
++print("Test 3:", sumOfPower([1, 2, 3], 7))  # Expected: 0
