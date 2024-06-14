@@ -1,0 +1,37 @@
+
+diff --git a/min_or_operations.py b/min_or_operations.py
+new file mode 100644
+index 0000000..b141dfc
+--- /dev/null
++++ b/min_or_operations.py
+@@ -0,0 +1,30 @@
++from functools import reduce
++from operator import or_
++
++def minOrAfterOperations(nums, k):
++    # This approach will focus on minimizing the OR by strategically combining elements
++    n = len(nums)
++    if k == 0:
++        return reduce(or_, nums)
++
++    # Use a priority queue to always combine the smallest possible values
++    import heapq
++    heapq.heapify(nums)
++    while k > 0 and len(nums) > 1:
++        first = heapq.heappop(nums)
++        second = heapq.heappop(nums)
++        combined = first & second
++        heapq.heappush(nums, combined)
++        k -= 1
++
++    # Calculate the OR of the remaining elements
++    result = nums[0]
++    for num in nums[1:]:
++        result |= num
++
++    return result
++
++# Test cases
++print("Test 1:", minOrAfterOperations([3,5,3,2,7], 2))  # Expected: 3
++print("Test 2:", minOrAfterOperations([7,3,15,14,2,8], 4))  # Expected: 2
++print("Test 3:", minOrAfterOperations([10,7,10,3,9,14,9,4], 1))  # Expected: 15
