@@ -1,0 +1,30 @@
+
+diff --git a/min_or_operations.py b/min_or_operations.py
+new file mode 100644
+index 0000000..57fdbf4
+--- /dev/null
++++ b/min_or_operations.py
+@@ -0,0 +1,23 @@
++from functools import reduce
++
++class Solution:
++    def minOrAfterOperations(self, nums, k):
++        if k == 0:
++            return reduce(lambda x, y: x | y, nums)
++
++        def calc_or(arr):
++            return reduce(lambda x, y: x | y, arr)
++
++        min_or = calc_or(nums)
++        for i in range(len(nums) - 1):
++            new_nums = nums[:i] + [nums[i] & nums[i + 1]] + nums[i+2:]
++            min_or = min(min_or, self.minOrAfterOperations(new_nums, k-1))
++
++        return min_or
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.minOrAfterOperations([3,5,3,2,7], 2))  # Expected: 3
++print("Test 2:", sol.minOrAfterOperations([7,3,15,14,2,8], 4))  # Expected: 2
++print("Test 3:", sol.minOrAfterOperations([10,7,10,3,9,14,9,4], 1))  # Expected: 15
