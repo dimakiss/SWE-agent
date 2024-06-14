@@ -1,0 +1,30 @@
+
+diff --git a/beautiful_indices.py b/beautiful_indices.py
+new file mode 100644
+index 0000000..1c6a56c
+--- /dev/null
++++ b/beautiful_indices.py
+@@ -0,0 +1,23 @@
++from typing import List
++
++class Solution:
++    def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
++        n = len(s)
++        a_len = len(a)
++        b_len = len(b)
++        a_indices = [i for i in range(n - a_len + 1) if s[i:i + a_len] == a]
++        b_indices = [i for i in range(n - b_len + 1) if s[i:i + b_len] == b]
++        beautiful_indices = []
++
++        for i in a_indices:
++            if any(abs(i - j) <= k for j in b_indices):
++                beautiful_indices.append(i)
++
++        return sorted(beautiful_indices)
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.beautifulIndices("isawsquirrelnearmysquirrelhouseohmy", "my", "squirrel", 15))  # Expected: [16,33]
++print("Test 2:", sol.beautifulIndices("abcd", "a", "a", 4))  # Expected: [0]
++print("Test 3:", sol.beautifulIndices("hellohello", "lo", "he", 5))  # Expected: [3, 8]
