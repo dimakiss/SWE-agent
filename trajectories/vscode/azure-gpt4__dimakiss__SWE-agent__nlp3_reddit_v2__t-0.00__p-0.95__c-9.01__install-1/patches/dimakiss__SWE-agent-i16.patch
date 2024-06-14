@@ -1,0 +1,56 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..c1de8a7
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,49 @@
++def minimumMoves(nums, k, maxChanges):
++    n = len(nums)
++    # Initialize the minimum moves to a large number
++    min_moves = float('inf')
++    
++    # Iterate over all possible starting positions for Alice
++    for start in range(n):
++        if nums[start] == 1:
++            moves = 0
++            changes_used = 0
++            ones_collected = 1
++            # Collect k ones
++            left, right = start - 1, start + 1
++            while ones_collected < k:
++                # Check if we can move left or right and collect ones
++                if left >= 0 and nums[left] == 1:
++                    moves += start - left
++                    ones_collected += 1
++                    left -= 1
++                elif right < n and nums[right] == 1:
++                    moves += right - start
++                    ones_collected += 1
++                    right += 1
++                elif changes_used < maxChanges:
++                    # Use a change if possible
++                    if right < n and nums[right] == 0:
++                        nums[right] = 1
++                        moves += right - start
++                        ones_collected += 1
++                        right += 1
++                        changes_used += 1
++                    elif left >= 0 and nums[left] == 0:
++                        nums[left] = 1
++                        moves += start - left
++                        ones_collected += 1
++                        left -= 1
++                        changes_used += 1
++                else:
++                    break
++            
++            # Update the minimum moves if the current path is better
++            if ones_collected == k:
++                min_moves = min(min_moves, moves)
++    
++    return min_moves if min_moves != float('inf') else -1
++
++# Test cases
++print("Test 1:", minimumMoves([1,1,0,0,0,1,1,0,0,1], 3, 1))  # Expected: 3
++print("Test 2:", minimumMoves([0,0,0,0], 2, 3))  # Expected: 4
