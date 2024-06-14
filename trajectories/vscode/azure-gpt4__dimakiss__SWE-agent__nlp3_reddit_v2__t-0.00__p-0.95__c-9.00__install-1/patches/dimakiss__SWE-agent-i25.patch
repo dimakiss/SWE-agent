@@ -1,0 +1,30 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..498a52c
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,23 @@
++def minimumTimeToInitialState(word, k):
++    # Initialize a dictionary to keep track of the transformations
++    seen = {}
++    current = word
++    count = 0
++
++    while True:
++        count += 1
++        # Simulate the removal and addition of characters
++        removed = current[:k]
++        current = current[k:] + removed
++        # Check if the current state matches the initial word
++        if current == word:
++            return count
++        if current in seen:
++            # If we see a repeated state, it means we are in a loop and will never return to the initial state
++            return -1
++        seen[current] = count
++
++# Test cases
++print("Test 1:", minimumTimeToInitialState("abacaba", 3))  # Expected: 2
++print("Test 2:", minimumTimeToInitialState("abacaba", 4))  # Expected: 1
++print("Test 3:", minimumTimeToInitialState("abcbabcd", 2))  # Expected: 4

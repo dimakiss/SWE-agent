@@ -1,0 +1,33 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..917a791
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,26 @@
++from typing import List
++
++class Solution:
++    def maximumStrength(self, nums: List[int], k: int) -> int:
++        n = len(nums)
++        # Dynamic programming table to store the maximum strength for each subarray count
++        dp = [[float('-inf')] * (k + 1) for _ in range(n + 1)]
++        dp[0][0] = 0  # Base case: 0 subarrays have 0 strength
++
++        # Calculate the maximum strength for each subarray count
++        for i in range(1, n + 1):
++            for j in range(1, min(i, k) + 1):
++                for l in range(i):
++                    subarray_sum = sum(nums[l:i])
++                    sign = 1 if j % 2 == 1 else -1
++                    dp[i][j] = max(dp[i][j], dp[l][j - 1] + sign * subarray_sum * (k - j + 1))
++
++        # The answer is the maximum strength using exactly k subarrays
++        return max(dp[n][k], max(nums) if k == 1 else float('-inf'))
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.maximumStrength([1, 2, 3, -1, 2], 3))  # Expected: 22
++print("Test 2:", sol.maximumStrength([12, -2, -2, -2, -2], 5))  # Expected: 64
++print("Test 3:", sol.maximumStrength([-1, -2, -3], 1))  # Expected: -1

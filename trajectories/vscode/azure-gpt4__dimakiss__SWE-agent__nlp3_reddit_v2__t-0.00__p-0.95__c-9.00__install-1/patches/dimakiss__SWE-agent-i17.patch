@@ -1,0 +1,39 @@
+
+diff --git a/sum_of_power.py b/sum_of_power.py
+new file mode 100644
+index 0000000..fff0851
+--- /dev/null
++++ b/sum_of_power.py
+@@ -0,0 +1,32 @@
++from typing import List
++
++class Solution:
++    def sumOfPower(self, nums: List[int], k: int) -> int:
++        MOD = 10**9 + 7
++        total_power = 0
++
++        # Dynamic programming to count subsets with sum equal to k
++        def count_subsets_with_sum(nums, k):
++            dp = [0] * (k + 1)
++            dp[0] = 1  # There's one way to make sum 0, which is to choose no elements
++
++            for num in nums:
++                for j in range(k, num - 1, -1):
++                    dp[j] = (dp[j] + dp[j - num]) % MOD
++
++            return dp[k]
++
++        # Generate all possible subsequences using bit manipulation
++        n = len(nums)
++        for i in range(1, 1 << n):
++            subsequence = [nums[j] for j in range(n) if i & (1 << j)]
++            total_power = (total_power + count_subsets_with_sum(subsequence, k)) % MOD
++
++        return total_power
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.sumOfPower([1, 2, 3], 3))  # Expected: 6
++print("Test 2:", sol.sumOfPower([2, 3, 3], 5))  # Expected: 4
++print("Test 3:", sol.sumOfPower([1, 2, 3], 7))  # Expected: 0

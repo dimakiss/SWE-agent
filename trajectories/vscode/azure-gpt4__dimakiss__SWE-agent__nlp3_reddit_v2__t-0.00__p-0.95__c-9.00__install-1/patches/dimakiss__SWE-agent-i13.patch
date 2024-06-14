@@ -1,0 +1,35 @@
+
+diff --git a/minimize_manhattan.py b/minimize_manhattan.py
+new file mode 100644
+index 0000000..b427650
+--- /dev/null
++++ b/minimize_manhattan.py
+@@ -0,0 +1,28 @@
++from typing import List
++
++class Solution:
++    def minimumDistance(self, points: List[List[int]]) -> int:
++        def manhattan_distance(p1, p2):
++            return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
++
++        n = len(points)
++        min_max_distance = float('inf')
++
++        for i in range(n):
++            max_distance = 0
++            for j in range(n):
++                if i != j:
++                    for k in range(j + 1, n):
++                        if i != k:
++                            distance = manhattan_distance(points[j], points[k])
++                            max_distance = max(max_distance, distance)
++            min_max_distance = min(min_max_distance, max_distance)
++
++        return min_max_distance
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.minimumDistance([[3,10],[5,15],[10,2],[4,4]]))  # Expected: 12
++print("Test 2:", sol.minimumDistance([[1,1],[1,1],[1,1]]))  # Expected: 0
++print("Test 3:", sol.minimumDistance([[0,0],[100000000,100000000],[50000000,50000000]]))  # Expected: 100000000
