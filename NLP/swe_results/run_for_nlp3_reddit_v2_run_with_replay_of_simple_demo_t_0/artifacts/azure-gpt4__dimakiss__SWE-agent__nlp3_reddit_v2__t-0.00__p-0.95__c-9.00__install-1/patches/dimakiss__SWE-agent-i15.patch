@@ -1,0 +1,38 @@
+
+diff --git a/suffix_queries.py b/suffix_queries.py
+new file mode 100644
+index 0000000..f2c1a7a
+--- /dev/null
++++ b/suffix_queries.py
+@@ -0,0 +1,31 @@
++from typing import List
++
++class Solution:
++    def stringIndices(self, wordsContainer: List[str], wordsQuery: List[str]) -> List[int]:
++        def common_suffix_length(s1, s2):
++            i = 0
++            while i < len(s1) and i < len(s2) and s1[-1-i] == s2[-1-i]:
++                i += 1
++            return i
++
++        results = []
++        for query in wordsQuery:
++            max_len = -1
++            best_index = -1
++            best_length = float('inf')
++            for i, word in enumerate(wordsContainer):
++                suffix_len = common_suffix_length(word, query)
++                if suffix_len > max_len or (suffix_len == max_len and len(word) < best_length):
++                    max_len = suffix_len
++                    best_index = i
++                    best_length = len(word)
++                elif suffix_len == max_len and len(word) == best_length and i < best_index:
++                    best_index = i
++            results.append(best_index)
++        return results
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.stringIndices(["abcd","bcd","xbcd"], ["cd","bcd","xyz"]))  # Expected: [1, 1, 1]
++print("Test 2:", sol.stringIndices(["abcdefgh","poiuygh","ghghgh"], ["gh","acbfgh","acbfegh"]))  # Expected: [2, 0, 2]

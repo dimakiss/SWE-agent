@@ -1,0 +1,35 @@
+
+diff --git a/sum_of_power.py b/sum_of_power.py
+new file mode 100644
+index 0000000..76e99e1
+--- /dev/null
++++ b/sum_of_power.py
+@@ -0,0 +1,28 @@
++from typing import List
++
++class Solution:
++    def sumOfPower(self, nums: List[int], k: int) -> int:
++        from itertools import combinations
++        MOD = 10**9 + 7
++        total_power = 0
++
++        # Generate all possible subsequences and calculate their powers
++        for r in range(1, len(nums) + 1):
++            for subsequence in combinations(nums, r):
++                # Calculate the power of this subsequence
++                sub_power = 0
++                # Check all combinations of this subsequence
++                for i in range(1, len(subsequence) + 1):
++                    for comb in combinations(subsequence, i):
++                        if sum(comb) == k:
++                            sub_power += 1
++                total_power = (total_power + sub_power) % MOD
++
++        return total_power
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.sumOfPower([1, 2, 3], 3))  # Expected: 6
++print("Test 2:", sol.sumOfPower([2, 3, 3], 5))  # Expected: 4
++print("Test 3:", sol.sumOfPower([1, 2, 3], 7))  # Expected: 0

@@ -1,0 +1,42 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..f347124
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,35 @@
++from typing import List
++
++class Solution:
++    def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
++        # Initialize the maximum sum as the current sum of nums
++        max_sum = sum(nums)
++        
++        # Function to perform XOR operation on a node and its connected node
++        def xor_nodes(u, v):
++            nonlocal max_sum
++            # Calculate new values after XOR
++            new_u = nums[u] ^ k
++            new_v = nums[v] ^ k
++            # Calculate new potential sum
++            new_sum = max_sum - nums[u] - nums[v] + new_u + new_v
++            # Update max_sum if the new sum is greater
++            if new_sum > max_sum:
++                nums[u], nums[v] = new_u, new_v
++                max_sum = new_sum
++                return True
++            return False
++        
++        # Try to apply the XOR operation to maximize the sum
++        for u, v in edges:
++            while xor_nodes(u, v):
++                continue
++        
++        return max_sum
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.maximumValueSum([1, 2, 1], 3, [[0, 1], [0, 2]]))  # Expected: 6
++print("Test 2:", sol.maximumValueSum([2, 3], 7, [[0, 1]]))  # Expected: 9
++print("Test 3:", sol.maximumValueSum([7, 7, 7, 7, 7, 7], 3, [[0, 1], [0, 2], [0, 3], [0, 4], [0, 5]]))  # Expected: 42

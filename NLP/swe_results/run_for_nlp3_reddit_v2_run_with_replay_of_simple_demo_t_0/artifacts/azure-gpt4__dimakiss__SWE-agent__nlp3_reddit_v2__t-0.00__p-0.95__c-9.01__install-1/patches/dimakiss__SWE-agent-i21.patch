@@ -1,0 +1,33 @@
+
+diff --git a/mark_indices.py b/mark_indices.py
+new file mode 100644
+index 0000000..d053c74
+--- /dev/null
++++ b/mark_indices.py
+@@ -0,0 +1,26 @@
++def earliestSecondToMarkIndices(nums, changeIndices):
++    n = len(nums)
++    m = len(changeIndices)
++    marked = [False] * n
++    seconds = 0
++
++    # Initialize all indices that are already zero
++    for i in range(n):
++        if nums[i] == 0:
++            marked[i] = True
++
++    for second in range(1, m + 1):
++        index = changeIndices[second - 1] - 1  # Convert 1-indexed to 0-indexed
++        nums[index] = 0  # Set the value at changeIndices[second] to 0
++        marked[index] = True  # Mark this index since it's set to zero
++
++        # Check if all indices are marked
++        if all(marked):
++            return second
++
++    return -1  # If not all indices are marked by the end of the seconds
++
++# Test cases
++print("Test 1:", earliestSecondToMarkIndices([3,2,3], [1,3,2,2,2,2,3]))  # Expected: 6
++print("Test 2:", earliestSecondToMarkIndices([0,0,1,2], [1,2,1,2,1,2,1,2]))  # Expected: 7
++print("Test 3:", earliestSecondToMarkIndices([1,2,3], [1,2,3]))  # Expected: -1

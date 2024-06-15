@@ -1,0 +1,34 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..ae89c73
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,27 @@
++class Solution:
++    def countMatchingSubarrays(self, nums, pattern):
++        n = len(nums)
++        m = len(pattern)
++        count = 0
++
++        # Iterate over each possible starting index for a subarray of length m+1
++        for i in range(n - m):
++            matches = True
++            # Check each element in the pattern
++            for k in range(m):
++                if (pattern[k] == 1 and not (nums[i + k + 1] > nums[i + k])) or \
++                   (pattern[k] == 0 and not (nums[i + k + 1] == nums[i + k])) or \
++                   (pattern[k] == -1 and not (nums[i + k + 1] < nums[i + k])):
++                    matches = False
++                    break
++            if matches:
++                count += 1
++
++        return count
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.countMatchingSubarrays([1,2,3,4,5,6], [1,1]))  # Expected: 4
++print("Test 2:", sol.countMatchingSubarrays([1,4,4,1,3,5,5,3], [1,0,-1]))  # Expected: 2
++print("Test 3:", sol.countMatchingSubarrays([1,1,1,1], [0]))  # Expected: 3

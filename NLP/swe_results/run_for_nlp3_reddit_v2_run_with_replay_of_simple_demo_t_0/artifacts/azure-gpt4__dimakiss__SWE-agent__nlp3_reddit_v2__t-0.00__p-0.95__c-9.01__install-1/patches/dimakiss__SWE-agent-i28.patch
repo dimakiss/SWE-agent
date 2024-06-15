@@ -1,0 +1,37 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..a6dd9c0
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,30 @@
++from typing import List
++
++class Solution:
++    def countOfPairs(self, n: int, x: int, y: int) -> List[int]:
++        # Initialize the result array with zeros
++        result = [0] * n
++
++        # Function to calculate the minimum distance between two houses
++        def min_distance(h1, h2):
++            direct = abs(h1 - h2)
++            via_xy = abs(h1 - x) + 1 + abs(y - h2)
++            via_yx = abs(h1 - y) + 1 + abs(x - h2)
++            return min(direct, via_xy, via_yx)
++
++        # Calculate the number of pairs for each distance k
++        for house1 in range(1, n + 1):
++            for house2 in range(1, n + 1):
++                if house1 != house2:
++                    dist = min_distance(house1, house2)
++                    if dist <= n:
++                        result[dist - 1] += 1
++
++        return result
++
++# Create an instance of the solution
++sol = Solution()
++# Test cases
++print("Test 1:", sol.countOfPairs(3, 1, 3))  # Expected: [6,0,0]
++print("Test 2:", sol.countOfPairs(5, 2, 4))  # Expected: [10,8,2,0,0]
++print("Test 3:", sol.countOfPairs(4, 1, 1))  # Expected: [6,4,2,0]

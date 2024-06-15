@@ -1,0 +1,47 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..aa0c8fc
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,40 @@
++class Solution:
++    def maximumStrength(self, nums, k):
++        n = len(nums)
++        # This function will calculate the maximum strength of k disjoint subarrays
++        def calculate_strength(subarrays):
++            strength = 0
++            x = len(subarrays)
++            for i, subarray in enumerate(subarrays):
++                sub_sum = sum(subarray)
++                strength += ((-1)**i) * sub_sum * (x - i)
++            return strength
++
++        # Dynamic programming to find the best subarrays
++        from functools import lru_cache
++        @lru_cache(None)
++        def dp(i, remaining_k):
++            if remaining_k == 0:
++                return 0
++            if i >= n or n - i < remaining_k:
++                return float('-inf')
++            max_strength = float('-inf')
++            current_sum = 0
++            for j in range(i, n):
++                current_sum += nums[j]
++                subarray = nums[i:j+1]
++                if remaining_k == 1:
++                    max_strength = max(max_strength, calculate_strength([subarray]))
++                else:
++                    next_strength = dp(j + 1, remaining_k - 1)
++                    if next_strength != float('-inf'):
++                        max_strength = max(max_strength, calculate_strength([subarray]) + next_strength)
++            return max_strength
++
++        return dp(0, k)
++
++# Test cases
++sol = Solution()
++print("Test 1:", sol.maximumStrength([1, 2, 3, -1, 2], 3))  # Expected: 22
++print("Test 2:", sol.maximumStrength([12, -2, -2, -2, -2], 5))  # Expected: 64
++print("Test 3:", sol.maximumStrength([-1, -2, -3], 1))  # Expected: -1
