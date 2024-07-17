@@ -1,0 +1,31 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..ac2ac6a
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,24 @@
++class Solution:
++    def minimumTimeToInitialState(self, word: str, k: int) -> int:
++        # Initialize a dictionary to track the transformations
++        seen = {}
++        current = word
++        time = 0
++
++        while True:
++            # Generate the next state of the word
++            time += 1
++            current = current[k:] + current[:k]
++
++            # Check if the current state has been seen before
++            if current in seen:
++                # Calculate the cycle length
++                cycle_length = time - seen[current]
++                # Calculate the minimum time to return to the initial state
++                return (time - cycle_length) % cycle_length
++            else:
++                seen[current] = time
++
++            # If the word returns to its initial state
++            if current == word:
++                return time

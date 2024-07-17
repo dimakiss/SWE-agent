@@ -1,0 +1,37 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..5f3ce96
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,30 @@
++from typing import List
++
++class Solution:
++    def numberOfPairs(self, points: List[List[int]]) -> int:
++        # Sort points by x-coordinate, and by y-coordinate in case of tie
++        points.sort()
++        count = 0
++
++        # Use a set to track points for quick lookup
++        point_set = set(tuple(point) for point in points)
++
++        # Check each point as a potential upper left corner (Alice's position)
++        for i in range(len(points)):
++            for j in range(i + 1, len(points)):
++                ax, ay = points[i]
++                bx, by = points[j]
++
++                # Ensure Alice's point is upper left and Bob's is lower right
++                if ax < bx and ay > by:
++                    # Check if any point is inside or on the boundary of the rectangle
++                    sad = False
++                    for px, py in points:
++                        if ax <= px <= bx and by <= py <= ay:
++                            if (px, py) != (ax, ay) and (px, py) != (bx, by):
++                                sad = True
++                                break
++                    if not sad:
++                        count += 1
++
++        return count
