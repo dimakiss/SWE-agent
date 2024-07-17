@@ -1,0 +1,26 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..974af96
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,19 @@
++from typing import List
++
++class Solution:
++    def beautifulIndices(self, s: str, a: str, b: str, k: int) -> List[int]:
++        # Find all start indices of substrings a and b in s
++        indices_a = [i for i in range(len(s) - len(a) + 1) if s[i:i+len(a)] == a]
++        indices_b = [i for i in range(len(s) - len(b) + 1) if s[i:i+len(b)] == b]
++
++        # Create a set of indices for b for quick lookup
++        set_b = set(indices_b)
++
++        # Find beautiful indices
++        beautiful_indices = []
++        for i in indices_a:
++            # Check if there exists an index j in indices_b such that |j - i| <= k
++            if any(abs(j - i) <= k for j in set_b):
++                beautiful_indices.append(i)
++
++        return sorted(beautiful_indices)
