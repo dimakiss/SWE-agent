@@ -1,0 +1,26 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..a2d36f3
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,19 @@
++class Solution:
++    def sumOfPowers(self, nums, k):
++        from itertools import combinations
++        MOD = 10**9 + 7
++        sum_powers = 0
++
++        # Generate all subsequences of length k
++        for subseq in combinations(nums, k):
++            if k == 2:
++                # Directly calculate the power for subsequences of length 2
++                power = abs(subseq[0] - subseq[1])
++            else:
++                # Calculate the minimum absolute difference for longer subsequences
++                sorted_subseq = sorted(subseq)
++                power = min(abs(sorted_subseq[i] - sorted_subseq[i+1]) for i in range(k-1))
++            
++            sum_powers = (sum_powers + power) % MOD
++
++        return sum_powers

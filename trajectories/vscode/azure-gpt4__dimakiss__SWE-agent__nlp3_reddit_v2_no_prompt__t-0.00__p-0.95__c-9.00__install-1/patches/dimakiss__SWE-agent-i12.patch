@@ -1,0 +1,42 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..589f7c8
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,35 @@
++from typing import List
++
++class Solution:
++    def minimumCost(self, n: int, edges: List[List[int]], query: List[List[int]]) -> List[int]:
++        from collections import defaultdict
++        import heapq
++
++        # Create graph from edges
++        graph = defaultdict(list)
++        for u, v, w in edges:
++            graph[u].append((v, w))
++            graph[v].append((u, w))
++
++        def min_cost_walk(si, ti):
++            # Priority queue to explore minimum cost path first
++            pq = [(0, si)]  # (cost, node)
++            visited = set()
++
++            while pq:
++                cost, node = heapq.heappop(pq)
++                if node in visited:
++                    continue
++                visited.add(node)
++                if node == ti:
++                    return cost
++                for neighbor, weight in graph[node]:
++                    if neighbor not in visited:
++                        heapq.heappush(pq, (cost & weight, neighbor))
++            return -1
++
++        # Answer queries
++        result = []
++        for si, ti in query:
++            result.append(min_cost_walk(si, ti))
++        return result

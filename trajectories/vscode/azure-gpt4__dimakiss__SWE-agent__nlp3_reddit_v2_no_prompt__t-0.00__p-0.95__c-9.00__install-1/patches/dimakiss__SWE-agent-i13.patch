@@ -1,0 +1,40 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..2bb4f6d
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,33 @@
++from typing import List
++
++class Solution:
++    def minimumDistance(self, points: List[List[int]]) -> int:
++        # Calculate the Manhattan distance between two points
++        def manhattan(p1, p2):
++            return abs(p1[0] - p2[0]) + abs(p1[1] - p2[1])
++
++        n = len(points)
++        if n == 3:
++            return 0  # With only three points, removing one always results in two points with a fixed distance
++
++        # Calculate all pairwise distances and store them
++        distances = {}
++        for i in range(n):
++            for j in range(i + 1, n):
++                dist = manhattan(points[i], points[j])
++                if i not in distances:
++                    distances[i] = []
++                if j not in distances:
++                    distances[j] = []
++                distances[i].append((j, dist))
++                distances[j].append((i, dist))
++
++        # Determine the minimum possible maximum distance after removing one point
++        min_max_distance = float('inf')
++        for i in range(n):
++            max_distance = 0
++            for j, dist in distances[i]:
++                max_distance = max(max_distance, dist)
++            min_max_distance = min(min_max_distance, max_distance)
++
++        return min_max_distance
