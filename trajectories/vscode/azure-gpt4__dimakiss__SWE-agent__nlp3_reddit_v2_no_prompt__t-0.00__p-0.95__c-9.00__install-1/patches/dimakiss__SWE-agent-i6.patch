@@ -1,0 +1,26 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..8e82a06
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,19 @@
++class Solution:
++    def medianOfUniquenessArray(self, nums):
++        from collections import defaultdict
++
++        def calculate_uniqueness():
++            uniqueness = []
++            for start in range(len(nums)):
++                seen = defaultdict(int)
++                for end in range(start, len(nums)):
++                    seen[nums[end]] += 1
++                    uniqueness.append(len(seen))
++            return sorted(uniqueness)
++
++        uniqueness_array = calculate_uniqueness()
++        mid = len(uniqueness_array) // 2
++        if len(uniqueness_array) % 2 == 0:
++            return min(uniqueness_array[mid - 1], uniqueness_array[mid])
++        else:
++            return uniqueness_array[mid]

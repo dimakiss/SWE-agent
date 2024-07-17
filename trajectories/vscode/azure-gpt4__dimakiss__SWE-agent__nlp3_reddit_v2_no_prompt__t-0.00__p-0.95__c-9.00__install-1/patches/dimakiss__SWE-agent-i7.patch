@@ -1,0 +1,38 @@
+
+diff --git a/stable_arrays.py b/stable_arrays.py
+new file mode 100644
+index 0000000..83527b4
+--- /dev/null
++++ b/stable_arrays.py
+@@ -0,0 +1,31 @@
++import math
++
++class Solution:
++    def numberOfStableArrays(self, zero: int, one: int, limit: int) -> int:
++        MOD = 10**9 + 7
++        # Base case: if limit >= zero + one, then all permutations are valid
++        if limit >= zero + one:
++            return (math.factorial(zero + one) // (math.factorial(zero) * math.factorial(one))) % MOD
++        
++        # Dynamic programming approach to count valid arrays
++        # dp[i][j] represents the number of valid arrays with i zeros and j ones
++        dp = [[0] * (one + 1) for _ in range(zero + 1)]
++        dp[0][0] = 1  # Base case: empty array is stable
++        
++        for z in range(zero + 1):
++            for o in range(one + 1):
++                if z > 0:
++                    dp[z][o] = (dp[z][o] + dp[z - 1][o]) % MOD
++                if o > 0:
++                    dp[z][o] = (dp[z][o] + dp[z][o - 1]) % MOD
++        
++        # Subtract invalid arrays that violate the limit condition
++        for l in range(1, limit + 1):
++            if l <= zero:
++                for o in range(one + 1):
++                    dp[l][o] = 0
++            if l <= one:
++                for z in range(zero + 1):
++                    dp[z][l] = 0
++        
++        return dp[zero][one]
