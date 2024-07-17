@@ -1,0 +1,39 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..e3f23f0
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,32 @@
++from typing import List
++
++class Solution:
++    def findAnswer(self, n: int, edges: List[List[int]]) -> List[bool]:
++        from heapq import heappop, heappush
++        from collections import defaultdict, deque
++
++        # Create graph
++        graph = defaultdict(list)
++        for i, (u, v, w) in enumerate(edges):
++            graph[u].append((v, w, i))
++            graph[v].append((u, w, i))
++
++        # Dijkstra's algorithm to find shortest paths from node 0
++        min_distance = {i: float('inf') for i in range(n)}
++        min_distance[0] = 0
++        priority_queue = [(0, 0)]  # (cost, node)
++        edge_in_path = [False] * len(edges)
++
++        while priority_queue:
++            current_cost, u = heappop(priority_queue)
++            if current_cost > min_distance[u]:
++                continue
++            for v, weight, idx in graph[u]:
++                if current_cost + weight < min_distance[v]:
++                    min_distance[v] = current_cost + weight
++                    heappush(priority_queue, (min_distance[v], v))
++                    edge_in_path[idx] = True
++                elif current_cost + weight == min_distance[v]:
++                    edge_in_path[idx] = True
++
++        return edge_in_path

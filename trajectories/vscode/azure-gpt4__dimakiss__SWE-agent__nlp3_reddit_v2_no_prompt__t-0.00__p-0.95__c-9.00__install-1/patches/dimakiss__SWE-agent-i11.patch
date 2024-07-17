@@ -1,0 +1,24 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..d602674
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,17 @@
++class Solution:
++    def numberOfSubarrays(self, nums):
++        # Initialize the count of valid subarrays
++        count = 0
++        
++        # Iterate through the array to find all possible subarrays
++        for start in range(len(nums)):
++            max_elem = nums[start]
++            for end in range(start, len(nums)):
++                # Update the maximum element in the current subarray
++                max_elem = max(max_elem, nums[end])
++                
++                # Check if the current subarray meets the condition
++                if nums[start] == nums[end] == max_elem:
++                    count += 1
++        
++        return count

@@ -1,0 +1,23 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..e3c145e
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,16 @@
++class Solution:
++    def findKthSmallest(self, coins, k):
++        import heapq
++
++        # Create a min-heap to store the multiples of each coin
++        min_heap = []
++        for coin in coins:
++            for i in range(1, k+1):
++                heapq.heappush(min_heap, coin * i)
++
++        # Extract the k-th smallest element from the heap
++        kth_smallest = None
++        for _ in range(k):
++            kth_smallest = heapq.heappop(min_heap)
++
++        return kth_smallest

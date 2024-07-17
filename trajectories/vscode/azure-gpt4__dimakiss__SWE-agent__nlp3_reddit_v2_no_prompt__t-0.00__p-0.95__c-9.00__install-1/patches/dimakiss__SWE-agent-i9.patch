@@ -1,0 +1,37 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..6702574
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,30 @@
++from typing import List
++
++class Solution:
++    def minimumValueSum(self, nums: List[int], andValues: List[int]) -> int:
++        n, m = len(nums), len(andValues)
++        if m > n:
++            return -1  # More subarrays than elements is impossible
++
++        # Helper function to calculate the AND of a subarray
++        def subarray_and(start, end):
++            result = nums[start]
++            for i in range(start + 1, end + 1):
++                result &= nums[i]
++            return result
++
++        # Dynamic programming table
++        # dp[i][j] will hold the minimum sum of values for the first i elements with j partitions
++        dp = [[float('inf')] * (m + 1) for _ in range(n + 1)]
++        dp[0][0] = 0  # Base case: 0 elements with 0 partitions
++
++        # Fill the dp table
++        for i in range(1, n + 1):
++            for j in range(1, min(i, m) + 1):
++                for k in range(i):
++                    and_result = subarray_and(k, i - 1)
++                    if and_result == andValues[j - 1]:
++                        dp[i][j] = min(dp[i][j], dp[k][j - 1] + nums[i - 1])
++
++        # The answer is in dp[n][m] if it's not infinity
++        return dp[n][m] if dp[n][m] != float('inf') else -1
