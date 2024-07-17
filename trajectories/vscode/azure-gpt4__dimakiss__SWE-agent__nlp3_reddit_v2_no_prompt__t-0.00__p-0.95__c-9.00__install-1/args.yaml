@@ -362,7 +362,13 @@ agent:
     - config/commands/search.sh
     - config/commands/edit_linting.sh
     - config/commands/_split_string.py
-    demonstration_template: null
+    demonstration_template: |
+      Here is a demonstration of how to correctly accomplish this task.
+      It is included to show you how to correctly use the interface.
+      You do not need to follow exactly what is done in the demonstration.
+      --- DEMONSTRATION ---
+      {demonstration}
+      --- END OF DEMONSTRATION ---
     demonstrations:
     - trajectories/vscode/azure-gpt4__roeibenzion__NLP-swe-agent__nlp3_reddit_v2_no_prompt__t-0.00__p-0.95__c-3.00__install-1/roeibenzion__NLP-swe-agent-i2.traj
     env_variables:
@@ -481,7 +487,7 @@ agent:
 environment:
   base_commit: null
   container_name: null
-  data_path: https://github.com/dimakiss/SWE-agent/issues/3
+  data_path: https://github.com/dimakiss/SWE-agent/issues/1
   environment_setup: null
   image_name: sweagent/swe-agent:latest
   install_environment: true
