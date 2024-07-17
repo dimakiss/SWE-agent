@@ -1,0 +1,21 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..30b62f8
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,14 @@
++from typing import List
++
++class Solution:
++    def sumOfPower(self, nums: List[int], k: int) -> int:
++        MOD = 10**9 + 7
++        n = len(nums)
++        dp = [0] * (k + 1)
++        dp[0] = 1  # There's always one way to make sum 0, which is to take no elements
++
++        for num in nums:
++            for j in range(k, num - 1, -1):
++                dp[j] = (dp[j] + dp[j - num]) % MOD
++
++        return dp[k]

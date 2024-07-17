@@ -1,0 +1,36 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..e2f8533
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,29 @@
++from typing import List
++
++class Solution:
++    def minimumMoves(self, nums: List[int], k: int, maxChanges: int) -> int:
++        # Initialize the number of moves and other necessary variables
++        moves = 0
++        n = len(nums)
++        one_positions = [i for i, x in enumerate(nums) if x == 1]
++
++        # Check if we need to perform any changes
++        if len(one_positions) < k:
++            return -1  # Not enough ones to pick
++
++        # Use a sliding window to find the minimum moves
++        left = 0
++        min_moves = float('inf')
++        current_changes = 0
++
++        for right in range(len(one_positions)):
++            while right - left + 1 > k:
++                left += 1
++            # Calculate the number of changes needed for the current window
++            if right - left + 1 == k:
++                mid = (left + right) // 2
++                median = one_positions[mid]
++                current_moves = sum(abs(one_positions[i] - median) - (i - mid) for i in range(left, right + 1))
++                min_moves = min(min_moves, current_moves)
++
++        return min_moves if min_moves <= maxChanges else -1
