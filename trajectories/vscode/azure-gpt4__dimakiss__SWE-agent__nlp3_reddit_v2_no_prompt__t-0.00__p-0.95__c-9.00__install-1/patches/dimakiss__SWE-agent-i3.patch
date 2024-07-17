@@ -1,0 +1,39 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..15cfeea
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,32 @@
++class Solution:
++    def findProductsOfElements(self, queries):
++        from typing import List
++
++        def powerful_array(x):
++            """ Generate the powerful array for a given integer x. """
++            result = []
++            power = 1
++            while x > 0:
++                if x & 1:
++                    result.append(power)
++                power <<= 1
++                x >>= 1
++            return result
++
++        def generate_big_nums(index):
++            """ Generate the big_nums array up to a certain index. """
++            big_nums = []
++            i = 1
++            while len(big_nums) <= index:
++                big_nums.extend(powerful_array(i))
++                i += 1
++            return big_nums
++
++        results = []
++        for fromi, toi, modi in queries:
++            big_nums = generate_big_nums(toi)
++            product = 1
++            for num in big_nums[fromi:toi + 1]:
++                product = (product * num) % modi
++            results.append(product)
++        return results

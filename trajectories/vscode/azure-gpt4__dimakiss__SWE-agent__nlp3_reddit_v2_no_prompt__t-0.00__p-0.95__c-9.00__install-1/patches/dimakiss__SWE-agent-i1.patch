@@ -1,0 +1,30 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..034016d
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,23 @@
++class Solution:
++    def waysToReachStair(self, k: int) -> int:
++        from functools import lru_cache
++
++        @lru_cache(None)
++        def dfs(current, jump, last_down):
++            if current == k:
++                return 1
++            if current < 0:
++                return 0
++
++            # Calculate the number of ways from the current position
++            ways = 0
++            # Option 1: Move up
++            ways += dfs(current + 2 ** jump, jump + 1, False)
++            # Option 2: Move down (only if not consecutive down moves and not at stair 0)
++            if not last_down and current > 0:
++                ways += dfs(current - 1, jump, True)
++
++            return ways
++
++        # Start from stair 1 with initial jump of 0
++        return dfs(1, 0, False)

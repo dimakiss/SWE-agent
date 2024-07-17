@@ -1,0 +1,21 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..af81c60
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,14 @@
++class Solution:
++    def findPermutation(self, nums):
++        from itertools import permutations
++        n = len(nums)
++        min_score = float('inf')
++        best_perm = None
++        
++        for perm in permutations(range(n)):
++            score = sum(abs(perm[i] - nums[perm[(i + 1) % n]]) for i in range(n))
++            if score < min_score or (score == min_score and perm < best_perm):
++                min_score = score
++                best_perm = perm
++        
++        return list(best_perm)

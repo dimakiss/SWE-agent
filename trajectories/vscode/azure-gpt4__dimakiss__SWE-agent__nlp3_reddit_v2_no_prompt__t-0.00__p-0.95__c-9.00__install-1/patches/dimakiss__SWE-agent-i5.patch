@@ -1,0 +1,28 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..51db616
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,21 @@
++class Solution:
++    def minCostToEqualizeArray(self, nums, cost1, cost2):
++        # Calculate the maximum value in the array to determine the target value
++        max_val = max(nums)
++        n = len(nums)
++        MOD = 10**9 + 7
++
++        # Calculate the cost to make all elements equal to max_val
++        cost = 0
++        for num in nums:
++            diff = max_val - num
++            if diff > 0:
++                if cost2 < 2 * cost1:
++                    # Use double increment if cheaper
++                    pairs = diff // 2
++                    cost += (pairs * cost2) % MOD
++                    cost += ((diff % 2) * cost1) % MOD
++                else:
++                    # Use single increments
++                    cost += (diff * cost1) % MOD
++        return cost % MOD
