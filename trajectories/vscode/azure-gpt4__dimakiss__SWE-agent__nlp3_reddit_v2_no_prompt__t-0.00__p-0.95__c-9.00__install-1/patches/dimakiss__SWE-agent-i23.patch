@@ -1,0 +1,31 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..c942957
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,24 @@
++class Solution:
++    def maxSelectedElements(self, nums):
++        # First, increase each element by 1 if it helps in forming a longer consecutive sequence
++        nums = [num + 1 for num in nums]
++        
++        # Sort the array to easily find consecutive sequences
++        nums.sort()
++        
++        # Initialize variables to track the maximum length of consecutive elements
++        max_length = 1
++        current_length = 1
++        
++        # Iterate through the sorted array to find the longest consecutive sequence
++        for i in range(1, len(nums)):
++            if nums[i] == nums[i - 1] + 1:
++                current_length += 1
++            else:
++                max_length = max(max_length, current_length)
++                current_length = 1
++        
++        # Check the last sequence
++        max_length = max(max_length, current_length)
++        
++        return max_length

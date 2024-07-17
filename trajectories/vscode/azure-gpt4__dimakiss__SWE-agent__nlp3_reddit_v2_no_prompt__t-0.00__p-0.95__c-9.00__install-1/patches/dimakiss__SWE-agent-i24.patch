@@ -1,0 +1,24 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..d038215
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,17 @@
++class Solution:
++    def countMatchingSubarrays(self, nums, pattern):
++        m = len(pattern)
++        count = 0
++        # Iterate through each possible starting index for a subarray of length m+1
++        for i in range(len(nums) - m):
++            valid = True
++            # Check each element in the pattern
++            for k in range(m):
++                if (pattern[k] == 1 and not (nums[i + k + 1] > nums[i + k])) or \
++                   (pattern[k] == 0 and not (nums[i + k + 1] == nums[i + k])) or \
++                   (pattern[k] == -1 and not (nums[i + k + 1] < nums[i + k])):
++                    valid = False
++                    break
++            if valid:
++                count += 1
++        return count
