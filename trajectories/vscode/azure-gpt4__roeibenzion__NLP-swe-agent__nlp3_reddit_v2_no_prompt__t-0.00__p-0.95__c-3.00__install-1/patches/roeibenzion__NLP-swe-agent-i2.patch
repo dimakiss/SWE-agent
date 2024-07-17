@@ -1,0 +1,22 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..984f001
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,15 @@
++class Solution:
++    def firstMissingPositive(self, nums):
++        # First, modify the array to use the index as a hash key (value at index i should be i+1 if possible)
++        n = len(nums)
++        for i in range(n):
++            while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:
++                nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]
++        
++        # Now, the first index where the value is not index+1 is the missing positive integer
++        for i in range(n):
++            if nums[i] != i + 1:
++                return i + 1
++        
++        # If all positions are filled correctly, the missing integer is n+1
++        return n + 1
