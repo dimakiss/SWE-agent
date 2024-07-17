@@ -1,0 +1,33 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..1f213df
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,26 @@
++class Solution:
++    def earliestSecondToMarkIndices(self, nums, changeIndices):
++        # Initialize the set of marked indices and the earliest second to mark each index
++        marked = set()
++        earliest_mark = [float('inf')] * len(nums)
++
++        # Process each second and the corresponding change index
++        for s, idx in enumerate(changeIndices, 1):
++            idx -= 1  # Convert to 0-based index
++            # Set the current index to zero
++            nums[idx] = 0
++            # Update the earliest second to mark this index if not already marked
++            if idx not in marked:
++                earliest_mark[idx] = min(earliest_mark[idx], s)
++
++        # Check if all indices can be marked by the end of all seconds
++        for i in range(len(nums)):
++            if nums[i] != 0:  # If any index is not zero, try to mark it
++                if earliest_mark[i] == float('inf'):  # If never set to zero
++                    return -1
++                marked.add(i)
++            else:
++                marked.add(i)
++
++        # Return the maximum of earliest seconds needed to mark all indices
++        return max(earliest_mark) if marked == set(range(len(nums))) else -1
