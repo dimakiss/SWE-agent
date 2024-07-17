@@ -1,0 +1,29 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..b1a0dd2
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,22 @@
++class Solution:
++    def maximumValueSum(self, nums, k, edges):
++        # Initialize the maximum sum as the sum of all node values without any operations
++        max_sum = sum(nums)
++        
++        # Calculate the potential new value for each node if XORed with k
++        potential_values = [x ^ k for x in nums]
++        
++        # Check each edge to see if performing the XOR operation increases the total sum
++        for u, v in edges:
++            current_sum = sum(nums)
++            # Perform XOR on both nodes connected by the edge
++            nums[u], nums[v] = nums[u] ^ k, nums[v] ^ k
++            # Calculate new sum after operation
++            new_sum = sum(nums)
++            # Update max_sum if the new sum is greater
++            if new_sum > max_sum:
++                max_sum = new_sum
++            # Revert the changes to try other possibilities
++            nums[u], nums[v] = nums[u] ^ k, nums[v] ^ k
++        
++        return max_sum
