@@ -1,0 +1,23 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..1fbd970
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,16 @@
++from typing import List
++
++class Solution:
++    def minimumCost(self, nums: List[int], k: int, dist: int) -> int:
++        # Initialize dynamic programming table
++        n = len(nums)
++        dp = [float('inf')] * n
++        for i in range(n):
++            dp[i] = nums[i] if i < k else dp[i - 1] + nums[i]
++
++        # Compute minimum cost using dynamic programming
++        for i in range(k, n):
++            for j in range(max(k - 1, i - dist), i):
++                dp[i] = min(dp[i], dp[j] + nums[i])
++
++        return dp[-1]

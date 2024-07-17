@@ -1,0 +1,26 @@
+
+diff --git a/solution.py b/solution.py
+new file mode 100644
+index 0000000..9562a11
+--- /dev/null
++++ b/solution.py
+@@ -0,0 +1,19 @@
++from typing import List
++
++class Solution:
++    def countOfPairs(self, n: int, x: int, y: int) -> List[int]:
++        # Initialize result array with zeros
++        result = [0] * n
++
++        # Function to calculate distance between two houses
++        def distance(h1, h2):
++            return min(abs(h1 - h2), abs(h1 - x) + 1 + abs(y - h2), abs(h1 - y) + 1 + abs(x - h2))
++
++        # Calculate pairs for each distance
++        for house1 in range(1, n + 1):
++            for house2 in range(house1 + 1, n + 1):
++                dist = distance(house1, house2)
++                if dist <= n:
++                    result[dist - 1] += 2  # Count both (house1, house2) and (house2, house1)
++
++        return result
